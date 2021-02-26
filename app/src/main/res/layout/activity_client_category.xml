@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.clientcategory.ClientCategoryActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/setting_btn"
+                android:layout_width="@dimen/_24sdp"
+                android:layout_height="@dimen/_24sdp"
+                android:src="@drawable/ic_setting"
+                android:layout_marginEnd="@dimen/_12sdp"
+                android:layout_marginVertical="@dimen/_20sdp"
+                app:layout_constraintTop_toTopOf="@id/app_logo"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/app_logo"/>
+
+            <ImageView
+                android:id="@+id/app_logo"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:src="@drawable/app_logo_2"
+                android:layout_marginVertical="@dimen/_20sdp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#C1BABA"
+                android:layout_marginTop="@dimen/_8sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/app_logo"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/loyalty_cat"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_110sdp"
+                android:background="@drawable/ic_loyality_program_img"
+                android:layout_margin="@dimen/_12sdp"
+                app:layout_constraintTop_toBottomOf="@id/view">
+
+                <TextView
+                    android:id="@+id/food_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/loyalty_program"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_20ssp"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/poppins_regular"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/customer_list_cat"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_110sdp"
+                android:background="@drawable/ic_coustomer_list_img"
+                android:layout_margin="@dimen/_12sdp"
+                app:layout_constraintTop_toBottomOf="@id/loyalty_cat">
+
+                <TextView
+                    android:id="@+id/fashion_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/customer_list"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_20ssp"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/poppins_regular"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/notification_cat"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_110sdp"
+                android:background="@drawable/ic_notification_img"
+                android:layout_margin="@dimen/_12sdp"
+                app:layout_constraintTop_toBottomOf="@id/customer_list_cat">
+
+                <TextView
+                    android:id="@+id/home_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/send_notifications"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_20ssp"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/poppins_regular"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/qr_code_cat"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_110sdp"
+                android:background="@drawable/ic_scan_qr_img"
+                android:layout_margin="@dimen/_12sdp"
+                app:layout_constraintTop_toBottomOf="@id/notification_cat">
+
+                <TextView
+                    android:id="@+id/all_items_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/scan_qr_code"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_20ssp"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/poppins_regular"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/account_setting_cat"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_110sdp"
+                android:background="@drawable/ic_account_setting_img"
+                android:layout_margin="@dimen/_12sdp"
+                app:layout_constraintTop_toBottomOf="@id/qr_code_cat">
+
+                <TextView
+                    android:id="@+id/success_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/account_setting"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_20ssp"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/poppins_regular"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_20sdp"
+                android:background="@color/white"
+                app:layout_constraintTop_toBottomOf="@id/account_setting_cat"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

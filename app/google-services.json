@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "253036353611",
+    "firebase_url": "https://tryitat-ee6f4-default-rtdb.firebaseio.com",
+    "project_id": "tryitat-ee6f4",
+    "storage_bucket": "tryitat-ee6f4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:253036353611:android:8ff23d23f8c343a00595ce",
+        "android_client_info": {
+          "package_name": "com.app.tryitat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "253036353611-fh6rl1hrnu7qb4j0t9rf3vcov2eu26jp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC8MLAY48ThkMyU19I6CYQGV0y30fbZlJA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "253036353611-fh6rl1hrnu7qb4j0t9rf3vcov2eu26jp.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "253036353611-0h465khvh98pfrgti8lfvr8vp9itftc4.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.app.tryitat"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

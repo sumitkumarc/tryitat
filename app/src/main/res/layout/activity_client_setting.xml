@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.clientsetting.ClientSettingActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/back_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_back"
+                android:paddingVertical="@dimen/_16sdp"
+                android:paddingHorizontal="@dimen/_12sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/account_setting"
+                android:textSize="@dimen/_16ssp"
+                android:textColor="@color/black"
+                android:textAlignment="center"
+                android:fontFamily="@font/poppins_regular"
+                app:layout_constraintStart_toEndOf="@id/back_btn"
+                app:layout_constraintTop_toTopOf="@id/back_btn"
+                app:layout_constraintBottom_toBottomOf="@id/back_btn"
+                app:layout_constraintEnd_toStartOf="@id/btn_switch_off"/>
+            <ImageView
+                android:id="@+id/btn_switch_off"
+                android:layout_width="@dimen/_24sdp"
+                android:layout_height="@dimen/_24sdp"
+                android:src="@drawable/ic_switch_off"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginHorizontal="@dimen/_12sdp"
+                app:layout_constraintTop_toTopOf="@id/back_btn"
+                app:layout_constraintBottom_toBottomOf="@id/back_btn"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.appcompat.widget.Toolbar>
+
+    <ImageView
+        android:id="@+id/cover_img"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_150sdp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_home_others"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"/>
+
+    <TextView
+        android:id="@+id/change_pic_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Change cover picture"
+        android:textSize="@dimen/_14ssp"
+        android:textColor="@color/white"
+        android:padding="@dimen/_8sdp"
+        android:background="@drawable/transparent_square_bg"
+        android:fontFamily="@font/poppins_regular"
+        android:layout_marginVertical="@dimen/_20sdp"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/user_img"
+        android:layout_width="@dimen/_50sdp"
+        android:layout_height="@dimen/_50sdp"
+        android:src="@drawable/ic_person"
+        app:civ_border_width="@dimen/_2sdp"
+        app:civ_border_color="@color/gray"
+        android:layout_marginVertical="@dimen/_20sdp"
+        app:layout_constraintTop_toBottomOf="@id/change_pic_btn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/edit_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/edit_nimage"
+        android:textSize="@dimen/_8sdp"
+        android:textColor="@color/white"
+        android:padding="@dimen/_4sdp"
+        android:fontFamily="@font/poppins_regular"
+        android:layout_marginVertical="@dimen/_20sdp"
+        app:layout_constraintTop_toBottomOf="@id/change_pic_btn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/user_img"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cover_img">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/store_name_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/store_name"
+                android:textSize="@dimen/_14ssp"
+                android:layout_marginVertical="@dimen/_8sdp"
+                android:textColor="@color/black"
+                android:layout_marginHorizontal="@dimen/_28sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/store_name_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/_12ssp"
+                android:textColor="@color/black"
+                android:hint="@string/store_name"
+                android:layout_marginHorizontal="@dimen/_20sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/store_name_tv" />
+
+            <TextView
+                android:id="@+id/location_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/location"
+                android:textSize="@dimen/_14ssp"
+                android:layout_marginVertical="@dimen/_8sdp"
+                android:textColor="@color/black"
+                android:layout_marginHorizontal="@dimen/_28sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/store_name_et" />
+
+            <EditText
+                android:id="@+id/location_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/_12ssp"
+                android:textColor="@color/black"
+                android:hint="@string/location"
+                android:layout_marginHorizontal="@dimen/_20sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/location_tv" />
+
+            <TextView
+                android:id="@+id/headline_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/headline"
+                android:textSize="@dimen/_14ssp"
+                android:layout_marginVertical="@dimen/_8sdp"
+                android:textColor="@color/black"
+                android:layout_marginHorizontal="@dimen/_28sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/location_et" />
+
+            <EditText
+                android:id="@+id/headline_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/_12ssp"
+                android:textColor="@color/black"
+                android:hint="@string/headline"
+                android:layout_marginHorizontal="@dimen/_20sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/headline_tv" />
+
+            <TextView
+                android:id="@+id/email_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/e_mail"
+                android:textSize="@dimen/_14ssp"
+                android:layout_marginVertical="@dimen/_8sdp"
+                android:textColor="@color/black"
+                android:layout_marginHorizontal="@dimen/_28sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/headline_et" />
+
+            <EditText
+                android:id="@+id/email_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/_12ssp"
+                android:textColor="@color/black"
+                android:hint="@string/e_mail"
+                android:layout_marginHorizontal="@dimen/_20sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/email_tv" />
+
+            <TextView
+                android:id="@+id/phone_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/mobile_phone"
+                android:textSize="@dimen/_14ssp"
+                android:layout_marginVertical="@dimen/_8sdp"
+                android:textColor="@color/black"
+                android:layout_marginHorizontal="@dimen/_28sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/email_et" />
+
+            <EditText
+                android:id="@+id/phone_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/_12ssp"
+                android:textColor="@color/black"
+                android:hint="@string/mobile_phone"
+                android:layout_marginHorizontal="@dimen/_20sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/phone_tv" />
+
+            <TextView
+                android:id="@+id/update_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/update"
+                android:background="@drawable/violet_square_bg"
+                android:paddingVertical="@dimen/_12sdp"
+                android:textAlignment="center"
+                android:textSize="@dimen/_16ssp"
+                android:textColor="@color/white"
+                android:layout_marginHorizontal="@dimen/_32sdp"
+                android:fontFamily="@font/poppins_regular"
+                android:layout_marginVertical="@dimen/_28sdp"
+                app:layout_constraintTop_toBottomOf="@id/phone_et"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_50sdp"
+                app:layout_constraintTop_toBottomOf="@id/update_btn"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
