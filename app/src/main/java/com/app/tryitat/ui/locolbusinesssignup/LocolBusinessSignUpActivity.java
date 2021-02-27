@@ -11,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -26,6 +27,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
@@ -45,6 +48,8 @@ public class LocolBusinessSignUpActivity extends AppCompatActivity {
     private DatabaseReference clientRef;
     private String lat="";
     private String lang ="";
+    private String Instance_ID_token = "";
+
     private FusedLocationProviderClient fusedLocationClient;
     private final CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
@@ -74,6 +79,19 @@ public class LocolBusinessSignUpActivity extends AppCompatActivity {
 
             }
         }, 1500);
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                        if (!task.isSuccessful()) {
+                         //   Log.w(TAG, "getInstanceId failed", task.getException());
+                            return;
+                        }
+                        // Get new Instance ID token
+                        Instance_ID_token = task.getResult().getToken();
+                    }
+                });
+
     }
 
     private void signUpWithFirebase(){
@@ -151,6 +169,7 @@ public class LocolBusinessSignUpActivity extends AppCompatActivity {
         hashMap.put("storeName", storeName);
         hashMap.put("storeSubName", "");
         hashMap.put("phone", phone);
+        hashMap.put("fcmToken", Instance_ID_token);
         hashMap.put("approved", "No");
         hashMap.put("objectId", user.getUid());
         hashMap.put("userType", "CLIENT");

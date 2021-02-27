@@ -21,6 +21,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.kaopiz.kprogresshud.KProgressHUD;
 
 import java.util.HashMap;
@@ -31,7 +33,7 @@ public class SignupActivity extends AppCompatActivity {
     private SharedPref sharedPref;
     FirebaseDatabase database;
     DatabaseReference myRef;
-
+    private String Instance_ID_token = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +51,18 @@ public class SignupActivity extends AppCompatActivity {
         binding.backBtn.setOnClickListener(v->{
             finish();
         });
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                        if (!task.isSuccessful()) {
+                            //   Log.w(TAG, "getInstanceId failed", task.getException());
+                            return;
+                        }
+                        // Get new Instance ID token
+                        Instance_ID_token = task.getResult().getToken();
+                    }
+                });
 
     }
 
@@ -122,6 +136,7 @@ public class SignupActivity extends AppCompatActivity {
         hashMap.put("name", userName);
         hashMap.put("mobilePhone", phone);
         hashMap.put("objectId", user.getUid());
+        hashMap.put("fcmToken", Instance_ID_token);
         hashMap.put("loginMethod", "Email");
         myRef.child(user.getUid()).setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
