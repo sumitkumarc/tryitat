@@ -6,6 +6,7 @@ import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.app.Dialog;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,9 +17,12 @@ import android.widget.Toast;
 import com.app.tryitat.R;
 import com.app.tryitat.databinding.ActivityClientQrCodeScannerBinding;
 import com.app.tryitat.helper.Constant;
+import com.app.tryitat.ui.clientprofile.model.ClientDataModel;
+import com.app.tryitat.ui.clientsetting.ClientSettingActivity;
 import com.app.tryitat.ui.locolbusinesssignup.LocolBusinessSignUpActivity;
 import com.app.tryitat.ui.profile.model.UserDataModel;
 import com.app.tryitat.ui.userqrcode.QrCodeActivity;
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -43,15 +47,16 @@ public class ClientQrCodeScannerActivity extends AppCompatActivity implements ZX
     private FirebaseDatabase database;
     private DatabaseReference clientRef;
 
+
     private List<String> rewardsImageList = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityClientQrCodeScannerBinding.inflate(getLayoutInflater());
-        database = FirebaseDatabase.getInstance();
-        clientRef = database.getReference("Clients");
         setContentView(binding.getRoot());
         database = FirebaseDatabase.getInstance();
+        clientRef = database.getReference("Clients");
         initClickListener();
         ActivityCompat.requestPermissions(ClientQrCodeScannerActivity.this,
                 new String[]{Manifest.permission.CAMERA},
@@ -59,50 +64,55 @@ public class ClientQrCodeScannerActivity extends AppCompatActivity implements ZX
         ViewGroup contentFrame = (ViewGroup) findViewById(R.id.content_frame);
         mScannerView = new ZXingScannerView(this);
         contentFrame.addView(mScannerView);
-
-        getUserInfoData("3RAfDQsTRPRrY7JVxZcDLaCDOwn1");
     }
 
     private void initClickListener() {
-        binding.backBtn.setOnClickListener(v->{
+        binding.backBtn.setOnClickListener(v -> {
             finish();
         });
     }
+
     @Override
     public void onResume() {
         super.onResume();
         mScannerView.setResultHandler(this);
         mScannerView.startCamera();
     }
+
     @Override
     public void handleResult(final Result rawResult) {
+        mScannerView.stopCamera();
+        getUserInfoData(rawResult.getText());
 
-       // getUserInfoData(rawResult.getText());
-
-        Log.d("MINAURL",">>>>>" + rawResult.getText());
+        Log.d("MINAURL", ">>>>>" + rawResult.getText());
     }
 
-    private void getUserInfoData(String data_qr){
-        database.getReference("User").child(Objects.requireNonNull(data_qr)).addValueEventListener(new ValueEventListener() {
+
+
+    private void getUserInfoData(String data_qr) {
+        database.getReference("Clients").child(Objects.requireNonNull(FirebaseAuth.getInstance().getUid())).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()){
-                    rewardsImageList.add("3RAfDQsTRPRrY7JVxZcDLaCDOwn1");
-                    Toast.makeText(ClientQrCodeScannerActivity.this, ""+ snapshot.child("name").getValue(String.class) +"\n"+
-                            snapshot.child("email").getValue(String.class), Toast.LENGTH_SHORT).show();
-                    updateUserData();
-//                    int points = 0;
-//                    String name = snapshot.child("name").getValue(String.class);
-//                    String picture = snapshot.child("picture").getValue(String.class);
-//                    String coverpicture = snapshot.child("coverpicture").getValue(String.class);
-//                    String email = snapshot.child("email").getValue(String.class);
-//                    String fcmToken = snapshot.child("fcmToken").getValue(String.class);
-//                    String gender = snapshot.child("gender").getValue(String.class);
-//                    String mobilePhone = snapshot.child("mobilePhone").getValue(String.class);
-//                    if (snapshot.child("points").getValue(Integer.class)!=null)
-//                        points = snapshot.child("points").getValue(Integer.class);
-//                    String userId = snapshot.child("objectId").getValue(String.class);
-//                    Constant.userData = new UserDataModel(userId, name, picture, coverpicture, email, fcmToken, gender, mobilePhone, points);
+                if (snapshot.exists()) {
+                    ClientDataModel clientDataModel = snapshot.getValue(ClientDataModel.class);
+                    rewardsImageList = clientDataModel.getFollowers();
+                    if (rewardsImageList != null){
+                        for (int i = 0; i < rewardsImageList.size(); i++){
+                            if(!rewardsImageList.contains(data_qr)){
+                                rewardsImageList.add(data_qr);
+                            }
+                        }
+                    }else {
+                        rewardsImageList = new ArrayList<>();
+                        rewardsImageList.add(data_qr);
+                    }
+
+                    clientRef.child(Objects.requireNonNull(FirebaseAuth.getInstance().getUid())).child("followers").setValue(rewardsImageList);
+                    Intent intent = new Intent(ClientQrCodeScannerActivity.this, ClientSettingActivity.class);
+                    intent.putExtra("CLIENT_USER", 1);
+                    intent.putExtra("CLIENT_USER_Followers", data_qr);
+                    startActivity(intent);
+                    finish();
                 }
             }
 
@@ -131,9 +141,5 @@ public class ClientQrCodeScannerActivity extends AppCompatActivity implements ZX
     public void onPause() {
         super.onPause();
         mScannerView.stopCamera();
-    }
-    private void updateUserData() {
-        clientRef.child(Objects.requireNonNull("0voiJWGXdgYhHmAKlJSvofFtujt2")).child("qr_code").setValue(rewardsImageList);
-
     }
 }

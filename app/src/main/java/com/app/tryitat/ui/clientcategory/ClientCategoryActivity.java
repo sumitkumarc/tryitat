@@ -6,16 +6,12 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.app.tryitat.databinding.ActivityClientCategoryBinding;
-import com.app.tryitat.databinding.ActivityClientSettingBinding;
-import com.app.tryitat.helper.Constant;
 import com.app.tryitat.helper.SharedPref;
 import com.app.tryitat.ui.clientcustomerlist.CustomerListActivity;
-import com.app.tryitat.ui.clientnotificationsend.NotificationSendActivity;
+import com.app.tryitat.ui.clientnotificationsend.NotificationListActivity;
 import com.app.tryitat.ui.clientqrcodescanner.ClientQrCodeScannerActivity;
 import com.app.tryitat.ui.clientsetting.ClientSettingActivity;
 import com.app.tryitat.ui.dashboard.client.ClientDashboardActivity;
-import com.app.tryitat.ui.dashboard.user.UserDashboardActivity;
-import com.app.tryitat.ui.setting.SettingActivity;
 
 public class ClientCategoryActivity extends AppCompatActivity {
     private ActivityClientCategoryBinding binding;
@@ -41,7 +37,7 @@ public class ClientCategoryActivity extends AppCompatActivity {
         });
 
         binding.notificationCat.setOnClickListener(v->{
-            startActivity(new Intent(this, NotificationSendActivity.class));
+            startActivity(new Intent(this, NotificationListActivity.class));
         });
 
         binding.qrCodeCat.setOnClickListener(v->{

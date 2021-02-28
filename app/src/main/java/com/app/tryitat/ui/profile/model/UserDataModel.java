@@ -9,6 +9,16 @@ public class UserDataModel {
     String fcmToken;
     String gender;
     String mobilePhone;
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    String address;
     int points;
 
     public UserDataModel() {

@@ -11,5 +11,6 @@ public class Constant {
     public static PostResponse postResponse;
     public static UserDataModel userData;
     public static ClientDataModel clientDataModel;
+    public static UserDataModel newclientDataModel;
     public static String postCategory;
 }
