@@ -34,6 +34,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class ClientDashboardActivity extends AppCompatActivity {
@@ -211,10 +212,16 @@ public class ClientDashboardActivity extends AppCompatActivity {
                 if (snapshot.exists()){
                     ClientDataModel clientDataModel = snapshot.getValue(ClientDataModel.class);
                     Constant.clientDataModel = clientDataModel;
-                    Log.e("SMD", "onDataChange: "+Constant.clientDataModel.getRewards().size());
-
-
-
+                    if (Constant.clientDataModel.getRewards() != null){
+//                        for (int i = 0; i < rewardsImageList.size(); i++){
+//                            if(!rewardsImageList.contains(data_qr)){
+//                                rewardsImageList.add(data_qr);
+//                            }
+//                        }
+                    }else {
+//                        rewardsImageList = new ArrayList<>();
+//                        rewardsImageList.add(data_qr);
+                    }
 //                    String address;
 //                    String approved;
 //                    String email;
