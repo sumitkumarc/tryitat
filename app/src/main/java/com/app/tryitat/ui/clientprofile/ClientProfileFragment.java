@@ -34,6 +34,7 @@ import com.app.tryitat.utils.Common;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class ClientProfileFragment extends Fragment {
@@ -41,6 +42,9 @@ public class ClientProfileFragment extends Fragment {
     private List<PostResponse> postResponseList;
     private List<String> rewardsImageList = new ArrayList<>();
     private List<String> rewardsPriceList = new ArrayList<>();
+    HashMap<String, String> mStrings = new HashMap<String, String>();
+    private String[] mKeys;
+//    private List<String> rewardsPriceList = new ArrayList<>();
 
     public ClientProfileFragment() {
         // Required empty public constructor
@@ -57,6 +61,10 @@ public class ClientProfileFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initClickListener();
+    }
+
+    public Object getItem(int position) {
+        return mStrings.get(mKeys[position]);
     }
 
     private void initClickListener() {
@@ -77,19 +85,24 @@ public class ClientProfileFragment extends Fragment {
         if (Constant.clientDataModel.getFollowing() != null)
             binding.followingTv.setText(String.valueOf(Constant.clientDataModel.getFollowing().size()));
         if (Constant.clientDataModel.getRewards() != null) {
-            for (int i = 0; i <= Constant.clientDataModel.getRewards().size(); i++) {
-                if (Constant.clientDataModel.getRewards().get("image" + (i + 1)) != null) {
-                    rewardsImageList.add(Constant.clientDataModel.getRewards().get("image" + i + 1));
-                }
 
-                if (Constant.clientDataModel.getRewards().get("price" + (i + 1)) != null) {
-                    rewardsPriceList.add(Constant.clientDataModel.getRewards().get("price" + i + 1));
+            mStrings = Constant.clientDataModel.getRewards();
+            mKeys = mStrings.keySet().toArray(new String[mStrings.size()]);
+
+            for (int i = 0; i < mStrings.size(); i++) {
+                if (mKeys[i].toString().contains("image")) {
+                    rewardsImageList.add(Common.isStrempty(getItem(i).toString()));
+                }
+                if (mKeys[i].toString().contains("price")) {
+                    rewardsPriceList.add(Common.isStrempty(getItem(i).toString()));
                 }
             }
+
+
         }
         if (Constant.clientDataModel.getRewards() != null) {
             binding.rewardsRcv.setVisibility(View.VISIBLE);
-            RvReWordsCustomerListAdapter rvReWordsCustomerListAdapter = new RvReWordsCustomerListAdapter(getContext(), Constant.clientDataModel.getRewards());
+            RvReWordsCustomerListAdapter rvReWordsCustomerListAdapter = new RvReWordsCustomerListAdapter(getContext(), rewardsImageList, rewardsPriceList, false);
             binding.rewardsRcv.setAdapter(rvReWordsCustomerListAdapter);
         } else {
             binding.rewardsRcv.setVisibility(View.GONE);
@@ -100,7 +113,7 @@ public class ClientProfileFragment extends Fragment {
             public void onClick(View v) {
                 if (Constant.clientDataModel.getRewards() != null) {
                     startActivity(new Intent(getActivity(), RewaordsPointListActivity.class));
-                }else {
+                } else {
                     SowDialogBox();
                 }
             }

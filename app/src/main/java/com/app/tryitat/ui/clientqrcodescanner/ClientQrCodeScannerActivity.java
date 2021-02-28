@@ -107,7 +107,7 @@ public class ClientQrCodeScannerActivity extends AppCompatActivity implements ZX
                         rewardsImageList.add(data_qr);
                     }
 
-                    clientRef.child(Objects.requireNonNull(FirebaseAuth.getInstance().getUid())).child("followers").setValue(rewardsImageList);
+                    clientRef.child(Objects.requireNonNull(FirebaseAuth.getInstance().getUid())).child("customers").setValue(rewardsImageList);
                     Intent intent = new Intent(ClientQrCodeScannerActivity.this, ClientSettingActivity.class);
                     intent.putExtra("CLIENT_USER", 1);
                     intent.putExtra("CLIENT_USER_Followers", data_qr);

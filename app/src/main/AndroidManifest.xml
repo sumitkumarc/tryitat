@@ -22,6 +22,7 @@
         android:theme="@style/Theme.Tryitat">
         <activity android:name=".ui.clientnotificationsend.NotificationSendActivity"></activity>
         <activity android:name=".ui.addpost.AddNewPostActivity" />
+        <activity android:name=".ui.clientdashboardfragment.RewaordsPointListActivity" />
         <activity android:name=".ui.clientfollowerlist.ClientFollowerListActivity" />
         <activity android:name=".ui.clientqrcodescanner.ClientQrCodeScannerActivity" />
         <activity android:name=".ui.clientnotificationsend.NotificationListActivity" />

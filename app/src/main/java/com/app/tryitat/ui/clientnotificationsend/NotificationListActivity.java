@@ -84,17 +84,23 @@ public class NotificationListActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     ClientDataModel clientDataModel = snapshot.getValue(ClientDataModel.class);
-                    customerList = clientDataModel.getFollowers();
-                    if (customerList.size() != 0) {
-                        binding.txtNoData.setVisibility(View.GONE);
-                        binding.recyclerView.setVisibility(View.VISIBLE);
-                        RvNotCustomerListAdapter adapter = new RvNotCustomerListAdapter(NotificationListActivity.this, customerList);
-                        binding.recyclerView.setAdapter(adapter);
-                    } else {
+                    customerList = clientDataModel.getCustomers();
+                    if(customerList != null) {
+                        if (customerList.size() != 0) {
+                            binding.txtNoData.setVisibility(View.GONE);
+                            binding.recyclerView.setVisibility(View.VISIBLE);
+                            RvNotCustomerListAdapter adapter = new RvNotCustomerListAdapter(NotificationListActivity.this, customerList);
+                            binding.recyclerView.setAdapter(adapter);
+                        } else {
+                            binding.recyclerView.setVisibility(View.GONE);
+                            binding.txtNoData.setVisibility(View.VISIBLE);
+                        }
+                        dismissProgress();
+                    }else {
+                        dismissProgress();
                         binding.recyclerView.setVisibility(View.GONE);
                         binding.txtNoData.setVisibility(View.VISIBLE);
                     }
-                    dismissProgress();
                 }
             }
 
