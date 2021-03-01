@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,6 +27,7 @@ import java.util.List;
 public class RvNotCustomerListAdapter extends RecyclerView.Adapter<RvNotCustomerListAdapter.MyViewHolder> {
     Context mcontext;
     List<String> mStrings;
+
 
     public RvNotCustomerListAdapter(Context context, List<String> customerList) {
         mcontext = context;
@@ -53,10 +55,15 @@ public class RvNotCustomerListAdapter extends RecyclerView.Adapter<RvNotCustomer
                         holder.binding.updateBtn.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Intent intent= new Intent(mcontext,NotificationSendActivity.class);
-                                intent.putExtra("FCM_TOKEN" ,Common.isStrempty(String.valueOf(userDataModel.getFcmToken())));
-                                intent.putExtra("USER_NAME" ,Common.isStrempty(String.valueOf(userDataModel.getName())));
-                                mcontext.startActivity(intent);
+                                if(!String.valueOf(userDataModel.getFcmToken()).equals("")){
+                                    Intent intent= new Intent(mcontext,NotificationSendActivity.class);
+                                    intent.putExtra("FCM_TOKEN" ,Common.isStrempty(String.valueOf(userDataModel.getFcmToken())));
+                                    intent.putExtra("USER_NAME" ,Common.isStrempty(String.valueOf(userDataModel.getName())));
+                                    mcontext.startActivity(intent);
+                                }else {
+                                    Toast.makeText(mcontext, "Token not store...", Toast.LENGTH_SHORT).show();
+                                }
+
                             }
                         });
                     }
