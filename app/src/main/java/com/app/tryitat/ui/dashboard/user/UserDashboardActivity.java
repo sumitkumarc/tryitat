@@ -2,6 +2,7 @@ package com.app.tryitat.ui.dashboard.user;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -11,6 +12,8 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -18,9 +21,11 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import com.app.tryitat.helper.Constant;
+import com.app.tryitat.ui.addpost.AddNewPostActivity;
 import com.app.tryitat.ui.dashboard.catchoose.ProductCatChoseActivity;
 import com.app.tryitat.ui.dashboard.interfaces.PickerOptionListener;
 import com.app.tryitat.ui.profile.model.UserDataModel;
+import com.app.tryitat.utils.Common;
 import com.bumptech.glide.Glide;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.app.tryitat.R;
@@ -43,6 +48,8 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -60,7 +67,7 @@ public class UserDashboardActivity extends AppCompatActivity implements PickerOp
         setContentView(binding.getRoot());
         database = FirebaseDatabase.getInstance();
         fragment = new HomeFragment();
-
+        checkAndRequestPermissions(UserDashboardActivity.this);
         initClickListeners();
         binding.menuHome.performClick();
         getUserInfoData();
@@ -299,7 +306,7 @@ public class UserDashboardActivity extends AppCompatActivity implements PickerOp
                     public void onPermissionsChecked(MultiplePermissionsReport report) {
                         if (report.areAllPermissionsGranted()) {
                             Intent pickPhoto = new Intent(Intent.ACTION_PICK,
-                                    android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                             startActivityForResult(pickPhoto, REQUEST_GALLERY_IMAGE);
                         }
                     }
@@ -318,15 +325,30 @@ public class UserDashboardActivity extends AppCompatActivity implements PickerOp
             case REQUEST_IMAGE_CAPTURE:
                 if (resultCode == RESULT_OK) {
                     Log.e("SMD", "onActivityResult: " + getCacheImagePath(fileName) );
-
+                    Intent intent= new Intent(UserDashboardActivity.this, AddNewPostActivity.class);
+                    intent.putExtra("img_url", getCacheImagePath(fileName));
+                    startActivity(intent);
                 } else {
                     setResultCancelled();
                 }
                 break;
             case REQUEST_GALLERY_IMAGE:
                 if (resultCode == RESULT_OK) {
-                    Uri imageUri = data.getData();
-                    Log.e("SMD", "onActivityResult: "+imageUri );
+//                    Uri imageUri = data.getData();
+                    Uri selectedImageUri = data.getData();
+                    String u_profile = getPath(selectedImageUri);
+                    Log.d(">>>>>", "EROOR" + u_profile.toString());
+//                    File N_file = null;
+//                    try {
+//                        N_file = Common.getCompressed(UserDashboardActivity.this, u_profile);
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                    u_profile =N_file.getPath();
+                    Intent intent= new Intent(UserDashboardActivity.this, AddNewPostActivity.class);
+                    intent.putExtra("img_url",u_profile);
+                    startActivity(intent);
+                    Log.e("SMD", "onActivityResult: "+u_profile );
                 } else {
                     setResultCancelled();
                 }
@@ -335,7 +357,17 @@ public class UserDashboardActivity extends AppCompatActivity implements PickerOp
                 setResultCancelled();
         }
     }
-
+    String res;
+    public String getPath(Uri uri) {
+        String[] projection = {MediaStore.Images.Media.DATA};
+        Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
+        if (cursor.moveToFirst()) {
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            res = cursor.getString(column_index);
+        }
+        cursor.close();
+        return res;
+    }
     private void setResultCancelled() {
         Intent intent = new Intent();
         setResult(Activity.RESULT_CANCELED, intent);
@@ -357,5 +389,24 @@ public class UserDashboardActivity extends AppCompatActivity implements PickerOp
     @Override
     public void onChooseGallerySelected() {
         chooseImageFromGallery();
+    }
+
+    public static boolean checkAndRequestPermissions(Context context) {
+
+        int locationPermission = ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        int readPermission = ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE);
+
+        List<String> listPermissionsNeeded = new ArrayList<>();
+        if (locationPermission != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        }
+        if (readPermission != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(Manifest.permission.READ_EXTERNAL_STORAGE);
+        }
+        if (!listPermissionsNeeded.isEmpty()) {
+            ActivityCompat.requestPermissions((Activity) context, listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]), 2);
+            return false;
+        }
+        return true;
     }
 }

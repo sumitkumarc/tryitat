@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.app.tryitat.databinding.ActivityAddNewPostBinding;
@@ -62,11 +63,16 @@ public class AddNewPostActivity extends AppCompatActivity {
     private float rating2 = 0.0f;
     private String category ="";
     private String photoUrl="";
+    String reviewDesc;
+    String location="";
+    String subTitle="";
+    String title="";
+
     private void getUserPostData() {
-        String title = binding.pTitle.getText().toString();
-        String subTitle = binding.pCompany.getText().toString();
-        String reviewDesc = binding.pReviewDetails.getText().toString();
-        String location="";
+         title = binding.pTitle.getText().toString();
+         subTitle = binding.pCompany.getText().toString();
+        reviewDesc = binding.pReviewDetails.getText().toString();
+        location="";
 
         binding.ratingBar1.setOnClickListener(v->{
             rating1 = binding.ratingBar1.getRating();
@@ -101,10 +107,10 @@ public class AddNewPostActivity extends AppCompatActivity {
             return;
         }
 
-        if (ratingOverall<=0){
-            Toast.makeText(this, "Please rate it", Toast.LENGTH_SHORT).show();
-            return;
-        }
+//        if (ratingOverall<=0){
+//            Toast.makeText(this, "Please rate it", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
 
         if (category.equals("")){
             Toast.makeText(this, "Select a category", Toast.LENGTH_SHORT).show();
@@ -113,21 +119,7 @@ public class AddNewPostActivity extends AppCompatActivity {
 
         sendPhotoToTheServer();
 
-        HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("Address", "");
-        hashMap.put("Comments", 0);
-        hashMap.put("Inyourmind", reviewDesc);
-        hashMap.put("Likes", 0);
-        hashMap.put("Latitude", 0);
-        hashMap.put("Longitude", 0);
-        hashMap.put("Name", title);
-        hashMap.put("Photo", photoUrl);
-        hashMap.put("Place", "");
-        hashMap.put("UserID", Constant.userData.getUserId());
-        hashMap.put("UserName", Constant.userData.getName());
-        hashMap.put("category", category);
-        hashMap.put("rating", String.valueOf(ratingOverall));
-        sendPostDataToFirebase(hashMap);
+
 
     }
 
@@ -153,7 +145,35 @@ public class AddNewPostActivity extends AppCompatActivity {
                                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                                     // Image uploaded successfully
                                     // Dismiss dialog
+                                    ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                        @Override
+                                        public void onSuccess(Uri uri) {
+                                            HashMap<String, Object> hashMap = new HashMap<>();
+                                            hashMap.put("Address", "");
+                                            hashMap.put("Comments", 0);
+                                            hashMap.put("Inyourmind", reviewDesc);
+                                            hashMap.put("Likes", 0);
+                                            hashMap.put("Latitude", 0);
+                                            hashMap.put("Longitude", 0);
+                                            hashMap.put("Name", title);
+                                            hashMap.put("Photo", uri);
+                                            hashMap.put("Place", "");
+                                            hashMap.put("UserID", Constant.userData.getUserId());
+                                            hashMap.put("UserName", Constant.userData.getName());
+                                            hashMap.put("category", category);
+                                            hashMap.put("rating", String.valueOf(1.0));
+                                            sendPostDataToFirebase(hashMap);
+                                            // Got the download URL for 'path/to/aFile'
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception exception) {
+                                            // Handle any errors
+                                        }
+                                    });
                                     progressDialog.dismiss();
+
+
                                     Toast.makeText(AddNewPostActivity.this, "Image Uploaded!!", Toast.LENGTH_SHORT).show();
                                 }
                             })
@@ -162,6 +182,8 @@ public class AddNewPostActivity extends AppCompatActivity {
                         public void onFailure(@NonNull Exception e) {
                             // Error, Image not uploaded
                             progressDialog.dismiss();
+
+                            Log.e("MAIN_URL",">>>>>>>" + e.getMessage());
                             Toast.makeText(AddNewPostActivity.this, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     })

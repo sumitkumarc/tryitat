@@ -28,6 +28,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.annotations.NotNull;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 
 public class Common {
     public static Toast toast;
@@ -40,6 +48,8 @@ public class Common {
     public static String NOTE = "type note here...";
     public static int FILTER_TYPE = 0;
     public static int RESTAURANT_ID = 0;
+    public static final SimpleDateFormat SDF = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault());
+
 
     public static boolean edvalidateName(String name, EditText ti_name, String msg) {
         if (name.isEmpty()) {
@@ -180,5 +190,40 @@ public class Common {
 
     public static String addZeroBeforeDate(int n) {
         return String.valueOf((n < 10) ? ("0" + n) : n);
+    }
+
+    public static File getCompressed(Context context, String path) throws IOException {
+        if (context == null)
+            throw new NullPointerException();
+        File cacheDir = context.getExternalCacheDir();
+        if (cacheDir == null)
+            cacheDir = context.getCacheDir();
+        String rootDir = cacheDir.getAbsolutePath() + "/ImageCompressor";
+        File root = new File(rootDir);
+        if (!root.exists())
+            root.mkdirs();
+        Bitmap bitmap = decodeImageFromFiles(path, 300, 300);
+        File compressed = new File(root, SDF.format(new Date()) + ".jpg");
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 80, byteArrayOutputStream);
+        FileOutputStream fileOutputStream = new FileOutputStream(compressed);
+        fileOutputStream.write(byteArrayOutputStream.toByteArray());
+        fileOutputStream.flush();
+        fileOutputStream.close();
+        return compressed;
+    }
+
+    public static Bitmap decodeImageFromFiles(String path, int width, int height) {
+        BitmapFactory.Options scaleOptions = new BitmapFactory.Options();
+        scaleOptions.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(path, scaleOptions);
+        int scale = 1;
+        while (scaleOptions.outWidth / scale / 2 >= width
+                && scaleOptions.outHeight / scale / 2 >= height) {
+            scale *= 2;
+        }
+        BitmapFactory.Options outOptions = new BitmapFactory.Options();
+        outOptions.inSampleSize = scale;
+        return BitmapFactory.decodeFile(path, outOptions);
     }
 }
