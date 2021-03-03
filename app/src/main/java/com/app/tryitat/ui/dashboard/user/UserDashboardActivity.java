@@ -337,14 +337,14 @@ public class UserDashboardActivity extends AppCompatActivity implements PickerOp
 //                    Uri imageUri = data.getData();
                     Uri selectedImageUri = data.getData();
                     String u_profile = getPath(selectedImageUri);
-                    Log.d(">>>>>", "EROOR" + u_profile.toString());
-//                    File N_file = null;
-//                    try {
-//                        N_file = Common.getCompressed(UserDashboardActivity.this, u_profile);
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                    u_profile =N_file.getPath();
+//                    Log.d(">>>>>", "EROOR" + u_profile.toString());
+                    File N_file = null;
+                    try {
+                        N_file = Common.getCompressed(UserDashboardActivity.this, u_profile);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    u_profile =N_file.getPath();
                     Intent intent= new Intent(UserDashboardActivity.this, AddNewPostActivity.class);
                     intent.putExtra("img_url",u_profile);
                     startActivity(intent);
@@ -375,9 +375,17 @@ public class UserDashboardActivity extends AppCompatActivity implements PickerOp
     }
 
     private Uri getCacheImagePath(String fileName) {
-        File path = new File(getExternalCacheDir(), "camera");
-        if (!path.exists()) path.mkdirs();
-        File image = new File(path, fileName);
+        File cacheDir = getExternalCacheDir();
+        if (cacheDir == null)
+            cacheDir = getCacheDir();
+        String rootDir = cacheDir.getAbsolutePath() + "/ImageCompressor";
+        File root = new File(rootDir);
+        if (!root.exists())
+            root.mkdirs();
+
+//        File path = new File(getExternalCacheDir(), "camera");
+//        if (!path.exists()) path.mkdirs();
+        File image = new File(root, fileName);
         return getUriForFile(UserDashboardActivity.this, getPackageName() + ".provider", image);
     }
 
