@@ -48,7 +48,7 @@ public class RvCustomerListAdapter extends RecyclerView.Adapter<RvCustomerListAd
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         UserDataModel userDataModel=snapshot.getValue(UserDataModel.class);
                         holder.binding.txtName.setText(com.app.tryitat.utils.Common.isStrempty(userDataModel.getName()));
-                        holder.binding.txtPoints.setText(com.app.tryitat.utils.Common.isStrempty(String.valueOf(userDataModel.getPoints())) + "Points");
+                        holder.binding.txtPoints.setText(com.app.tryitat.utils.Common.isStrempty(String.valueOf(userDataModel.getPoints())) + " Points");
                         Glide.with(mcontext).load(com.app.tryitat.utils.Common.isStrempty(userDataModel.getPicture())).placeholder(mcontext.getResources().getDrawable(R.drawable.ic_profile)).into(holder.binding.ivImg);
                     }
 

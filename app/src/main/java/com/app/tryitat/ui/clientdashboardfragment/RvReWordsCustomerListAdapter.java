@@ -71,7 +71,7 @@ public class RvReWordsCustomerListAdapter extends RecyclerView.Adapter<RvReWords
              @Override
              public void onClick(View v) {
                  if(mBoolean){
-                     MrvInterface.OnItemClick(mrewardsPriceList.get(position),mrewardsImageList.get(position));
+                     MrvInterface.OnItemClick(mrewardsPriceList.get(position),mrewardsImageList.get(position),position);
                  }
              }
          });

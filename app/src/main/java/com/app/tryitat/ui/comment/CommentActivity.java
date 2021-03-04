@@ -80,6 +80,14 @@ public class CommentActivity extends AppCompatActivity {
     }
 
     private void addUserComment(String commentText, String postId) {
+        int total = 0;
+        try {
+            total = Constant.postResponse.getComments() + 1;
+        } catch (Exception e) {
+            total = 5;
+        }
+        binding.commentCountTv.setText(String.valueOf(total));
+        database.getReference("Post").child(Constant.postResponse.getObjectId()).child("Comments").setValue(total);
         DatabaseReference commentRef = database.getReference("Comment").child(postId).push();
         HashMap<String, String> commentsData = new HashMap<>();
         commentsData.put("UserName", Constant.userData.getName());

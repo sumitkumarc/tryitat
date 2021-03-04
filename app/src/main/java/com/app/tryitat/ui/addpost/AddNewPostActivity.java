@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.app.tryitat.R;
 import com.app.tryitat.databinding.ActivityAddNewPostBinding;
 import com.app.tryitat.helper.Constant;
 import com.app.tryitat.ui.clientnotificationsend.NotificationSendActivity;
@@ -92,15 +93,33 @@ public class AddNewPostActivity extends AppCompatActivity {
         });
 
         binding.fashionCat.setOnClickListener(v -> {
+            binding.fashionCat.setBackground(getResources().getDrawable(R.drawable.yellow_circle_bg));
+            binding.fashionCat.setTextColor(getResources().getColor(R.color.white));
+            binding.foodDrinkCat.setBackground(null);
+            binding.foodDrinkCat.setTextColor(getResources().getColor(R.color.black));
+            binding.homeOtherCat.setBackground(null);
+            binding.homeOtherCat.setTextColor(getResources().getColor(R.color.black));
             category = binding.fashionCat.getText().toString();
 
         });
 
         binding.foodDrinkCat.setOnClickListener(v -> {
+            binding.foodDrinkCat.setBackground(getDrawable(R.drawable.yellow_circle_bg));
+            binding.foodDrinkCat.setTextColor(getResources().getColor(R.color.white));
+            binding.fashionCat.setBackground(null);
+            binding.fashionCat.setTextColor(getResources().getColor(R.color.black));
+            binding.homeOtherCat.setBackground(null);
+            binding.homeOtherCat.setTextColor(getResources().getColor(R.color.black));
             category = binding.foodDrinkCat.getText().toString();
         });
 
         binding.homeOtherCat.setOnClickListener(v -> {
+            binding.homeOtherCat.setBackground(getDrawable(R.drawable.yellow_circle_bg));
+            binding.homeOtherCat.setTextColor(getResources().getColor(R.color.white));
+            binding.fashionCat.setBackground(null);
+            binding.fashionCat.setTextColor(getResources().getColor(R.color.black));
+            binding.foodDrinkCat.setBackground(null);
+            binding.foodDrinkCat.setTextColor(getResources().getColor(R.color.black));
             category = binding.homeOtherCat.getText().toString();
         });
 

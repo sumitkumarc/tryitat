@@ -1,7 +1,9 @@
 package com.app.tryitat.ui.clientnotificationsend;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,6 +14,7 @@ import com.app.tryitat.R;
 import com.app.tryitat.databinding.ActivityNotificationListBinding;
 import com.app.tryitat.databinding.ActivityNotificationSendBinding;
 import com.app.tryitat.ui.clientcustomerlist.CustomerListActivity;
+import com.app.tryitat.ui.clientqrcodescanner.ClientQrCodeScannerActivity;
 import com.app.tryitat.utils.Common;
 import com.kaopiz.kprogresshud.KProgressHUD;
 
@@ -89,6 +92,15 @@ public class NotificationSendActivity extends AppCompatActivity {
                                     dismissProgress();
                                     binding.edTitle.setText("");
                                     binding.edNotMsg.setText("");
+//                                    AlertDialog alertDialog = new AlertDialog.Builder(getApplicationContext()).create();
+//                                    alertDialog.setMessage("Notification send successfully..");
+//                                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+//                                            new DialogInterface.OnClickListener() {
+//                                                public void onClick(DialogInterface dialog, int which) {
+//                                                    dialog.dismiss();
+//                                                }
+//                                            });
+//                                    alertDialog.show();
                                     finish();
                                     Toast.makeText(NotificationSendActivity.this, "Notification send successfully", Toast.LENGTH_SHORT).show();
                                 }

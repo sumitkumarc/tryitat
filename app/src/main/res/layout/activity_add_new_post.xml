@@ -94,7 +94,7 @@
                         android:layout_height="@dimen/_30sdp"
                         android:padding="@dimen/_3sdp"
                         android:layout_marginHorizontal="@dimen/_8sdp"
-                        android:hint="@string/sub_title" />
+                        android:hint="Store name" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -198,19 +198,20 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
+                android:gravity="center"
+                android:padding="@dimen/_5sdp"
                 android:layout_height="wrap_content">
 
                 <TextView
                     android:id="@+id/food_drink_cat"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/_12sdp"
-                    android:layout_marginVertical="@dimen/_12sdp"
                     android:gravity="center"
                     android:paddingStart="@dimen/_10sdp"
                     android:paddingTop="@dimen/_5sdp"
                     android:paddingBottom="@dimen/_5sdp"
-
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:paddingEnd="@dimen/_10sdp"
                     android:text="@string/food_drink"
                     android:textColor="@color/black" />
 
@@ -218,12 +219,12 @@
                     android:id="@+id/fashion_cat"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/_12sdp"
-                    android:layout_marginVertical="@dimen/_12sdp"
                     android:gravity="center"
                     android:paddingStart="@dimen/_10sdp"
                     android:paddingTop="@dimen/_5sdp"
                     android:paddingBottom="@dimen/_5sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:paddingEnd="@dimen/_10sdp"
                     android:text="@string/fashion"
                     android:textColor="@color/black" />
 
@@ -231,11 +232,11 @@
                     android:id="@+id/home_other_cat"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/_12sdp"
-                    android:layout_marginVertical="@dimen/_12sdp"
+
                     android:gravity="center"
                     android:paddingStart="@dimen/_10sdp"
                     android:paddingTop="@dimen/_5sdp"
+                    android:paddingEnd="@dimen/_10sdp"
                     android:paddingBottom="@dimen/_5sdp"
                     android:text="@string/home_others"
                     android:textColor="@color/black" />
@@ -247,8 +248,7 @@
                 android:id="@+id/share_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/_12sdp"
-                android:layout_marginVertical="@dimen/_12sdp"
+                android:paddingEnd="@dimen/_10sdp"
                 android:background="?android:selectableItemBackground"
                 android:padding="@dimen/_5sdp"
                 android:text="@string/home_others"

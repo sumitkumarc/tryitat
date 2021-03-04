@@ -5,6 +5,14 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        debug {
+            storeFile file('C:\\Users\\Dell\\Documents\\GitHub\\Tryitat\\tritat.jks')
+            storePassword 'tritat'
+            keyAlias 'tritat'
+            keyPassword 'tritat'
+        }
+    }
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
 
@@ -64,6 +72,8 @@ dependencies {
 
     implementation 'com.google.firebase:firebase-messaging:17.0.0'
     implementation 'com.google.firebase:firebase-core:16.0.0'
+
+    implementation 'com.edmodo:cropper:1.0.1'
 
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'

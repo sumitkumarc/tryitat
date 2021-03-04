@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -21,7 +22,9 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import com.app.tryitat.helper.Constant;
+import com.app.tryitat.ui.UserCropActivity;
 import com.app.tryitat.ui.addpost.AddNewPostActivity;
+import com.app.tryitat.ui.clientdashboardfragment.RewaordsPointListActivity;
 import com.app.tryitat.ui.dashboard.catchoose.ProductCatChoseActivity;
 import com.app.tryitat.ui.dashboard.interfaces.PickerOptionListener;
 import com.app.tryitat.ui.profile.model.UserDataModel;
@@ -49,11 +52,15 @@ import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 import static androidx.core.content.FileProvider.getUriForFile;
+import static com.app.tryitat.utils.Common.getCompressed;
 
 public class UserDashboardActivity extends AppCompatActivity implements PickerOptionListener {
     private ActivityUserDashboardBinding binding;
@@ -282,12 +289,24 @@ public class UserDashboardActivity extends AppCompatActivity implements PickerOp
                     @Override
                     public void onPermissionsChecked(MultiplePermissionsReport report) {
                         if (report.areAllPermissionsGranted()) {
-                            fileName = System.currentTimeMillis() + ".jpg";
-                            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, getCacheImagePath(fileName));
-                            if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                            Intent pictureIntent = new Intent(
+                                    MediaStore.ACTION_IMAGE_CAPTURE);
+                            if(pictureIntent.resolveActivity(getPackageManager()) != null){
+                                //Create a file to store the image
+                                File photoFile = null;
+                                try {
+                                    photoFile = createImageFile();
+                                } catch (IOException ex) {
+                                }
+                                if (photoFile != null) {
+                                    Uri fileUri = FileProvider.getUriForFile(UserDashboardActivity.this, getPackageName()+".provider", photoFile);
+                                    pictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
+                                            fileUri);
+                                    startActivityForResult(pictureIntent,
+                                            REQUEST_IMAGE_CAPTURE);
+                                }
                             }
+
                         }
                     }
 
@@ -318,15 +337,45 @@ public class UserDashboardActivity extends AppCompatActivity implements PickerOp
                 }).check();
 
     }
+    String imageFilePath;
+    private File createImageFile() throws IOException {
+        String timeStamp =
+                new SimpleDateFormat("yyyyMMdd_HHmmss",
+                        Locale.getDefault()).format(new Date());
+        String imageFileName = "IMG_" + timeStamp + "_";
+        File cacheDir = getExternalCacheDir();
+        if (cacheDir == null)
+            cacheDir = getCacheDir();
+        String rootDir = cacheDir.getAbsolutePath() + "/ImageCompressor";
+        File root = new File(rootDir);
+        if (!root.exists())
+            root.mkdirs();
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                root      /* directory */
+        );
 
+        imageFilePath = image.getAbsolutePath();
+        return image;
+    }
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case REQUEST_IMAGE_CAPTURE:
                 if (resultCode == RESULT_OK) {
                     Log.e("SMD", "onActivityResult: " + getCacheImagePath(fileName) );
-                    Intent intent= new Intent(UserDashboardActivity.this, AddNewPostActivity.class);
-                    intent.putExtra("img_url", getCacheImagePath(fileName));
+                    String u_profile = getPath(Uri.parse(imageFilePath));
+                    Log.d(">>>>>", "EROOR" + u_profile.toString());
+                    File N_file = null;
+                    try {
+                        N_file = getCompressed(this, u_profile);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    u_profile =N_file.getPath();
+                    Intent intent= new Intent(UserDashboardActivity.this, UserCropActivity.class);
+                    intent.putExtra("img_url", u_profile);
                     startActivity(intent);
                 } else {
                     setResultCancelled();
@@ -345,9 +394,12 @@ public class UserDashboardActivity extends AppCompatActivity implements PickerOp
                         e.printStackTrace();
                     }
                     u_profile =N_file.getPath();
-                    Intent intent= new Intent(UserDashboardActivity.this, AddNewPostActivity.class);
-                    intent.putExtra("img_url",u_profile);
+                    Intent intent= new Intent(UserDashboardActivity.this, UserCropActivity.class);
+                    intent.putExtra("img_url", u_profile);
                     startActivity(intent);
+//                    Intent intent= new Intent(UserDashboardActivity.this, AddNewPostActivity.class);
+//                    intent.putExtra("img_url",u_profile);
+//                    startActivity(intent);
                     Log.e("SMD", "onActivityResult: "+u_profile );
                 } else {
                     setResultCancelled();

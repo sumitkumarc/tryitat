@@ -1,11 +1,13 @@
 package com.app.tryitat.ui.clientqrcodescanner;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -95,7 +97,7 @@ public class ClientQrCodeScannerActivity extends AppCompatActivity implements ZX
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     ClientDataModel clientDataModel = snapshot.getValue(ClientDataModel.class);
-                    rewardsImageList = clientDataModel.getFollowers();
+                    rewardsImageList = clientDataModel.getCustomers();
                     if (rewardsImageList != null){
                         for (int i = 0; i < rewardsImageList.size(); i++){
                             if(!rewardsImageList.contains(data_qr)){
@@ -108,11 +110,14 @@ public class ClientQrCodeScannerActivity extends AppCompatActivity implements ZX
                     }
 
                     clientRef.child(Objects.requireNonNull(FirebaseAuth.getInstance().getUid())).child("customers").setValue(rewardsImageList);
-                    Intent intent = new Intent(ClientQrCodeScannerActivity.this, ClientSettingActivity.class);
-                    intent.putExtra("CLIENT_USER", 1);
-                    intent.putExtra("CLIENT_USER_Followers", data_qr);
-                    startActivity(intent);
-                    finish();
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+
+                            finish();
+                            Toast.makeText(ClientQrCodeScannerActivity.this, "Qr code scan successfully..", Toast.LENGTH_SHORT).show();
+
+                        }
+                    });
                 }
             }
 

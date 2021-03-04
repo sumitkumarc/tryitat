@@ -77,27 +77,34 @@ public class CustomerListActivity extends AppCompatActivity {
         clientRef.child(Objects.requireNonNull(FirebaseAuth.getInstance().getUid())).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    ClientDataModel clientDataModel = snapshot.getValue(ClientDataModel.class);
-                    customerList = clientDataModel.getCustomers();
-                    if(customerList != null){
-                        if (customerList.size() != 0) {
-                            binding.txtNoData.setVisibility(View.GONE);
-                            binding.recyclerView.setVisibility(View.VISIBLE);
-                            RvCustomerListAdapter adapter = new RvCustomerListAdapter(CustomerListActivity.this, customerList);
-                            binding.recyclerView.setAdapter(adapter);
-                        } else {
-                            binding.txtNoData.setVisibility(View.VISIBLE);
+                try {
+                    if (snapshot.exists()) {
+                        ClientDataModel clientDataModel = snapshot.getValue(ClientDataModel.class);
+                        customerList = clientDataModel.getCustomers();
+                        if(customerList != null){
+                            if (customerList.size() != 0) {
+                                binding.txtNoData.setVisibility(View.GONE);
+                                binding.recyclerView.setVisibility(View.VISIBLE);
+                                RvCustomerListAdapter adapter = new RvCustomerListAdapter(CustomerListActivity.this, customerList);
+                                binding.recyclerView.setAdapter(adapter);
+                            } else {
+                                binding.txtNoData.setVisibility(View.VISIBLE);
+                                binding.recyclerView.setVisibility(View.GONE);
+                            }
+                            dismissProgress();
+                        }else {
+                            dismissProgress();
                             binding.recyclerView.setVisibility(View.GONE);
+                            binding.txtNoData.setVisibility(View.VISIBLE);
                         }
-                        dismissProgress();
-                    }else {
-                        dismissProgress();
-                        binding.recyclerView.setVisibility(View.GONE);
-                        binding.txtNoData.setVisibility(View.VISIBLE);
-                    }
 
+                    }
+                }catch (Exception e){
+                    dismissProgress();
+                    binding.recyclerView.setVisibility(View.GONE);
+                    binding.txtNoData.setVisibility(View.VISIBLE);
                 }
+
             }
 
             @Override

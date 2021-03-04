@@ -6,6 +6,11 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.media.ExifInterface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
@@ -35,6 +40,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+
+import static androidx.exifinterface.media.ExifInterface.TAG_ORIENTATION;
 
 
 public class Common {
@@ -202,10 +209,10 @@ public class Common {
         File root = new File(rootDir);
         if (!root.exists())
             root.mkdirs();
-        Bitmap bitmap = decodeImageFromFiles(path, 300, 300);
+//        Bitmap bitmap = decodeImageFromFiles(path, 300, 300);
         File compressed = new File(root, SDF.format(new Date()) + ".jpg");
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 80, byteArrayOutputStream);
+        getCroppedBitmap(path).compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
         FileOutputStream fileOutputStream = new FileOutputStream(compressed);
         fileOutputStream.write(byteArrayOutputStream.toByteArray());
         fileOutputStream.flush();
@@ -213,17 +220,86 @@ public class Common {
         return compressed;
     }
 
-    public static Bitmap decodeImageFromFiles(String path, int width, int height) {
-        BitmapFactory.Options scaleOptions = new BitmapFactory.Options();
-        scaleOptions.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(path, scaleOptions);
-        int scale = 1;
-        while (scaleOptions.outWidth / scale / 2 >= width
-                && scaleOptions.outHeight / scale / 2 >= height) {
-            scale *= 2;
+    public static Bitmap getCroppedBitmap(String s) {
+        Bitmap bitmap;
+        Bitmap bitmap2;
+        String realPathFromURI = s;
+        Log.e("FILE_PATH", realPathFromURI);
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        Bitmap decodeFile = BitmapFactory.decodeFile(realPathFromURI, options);
+        int i = options.outHeight;
+        int i2 = options.outWidth;
+        float f = (float) (i2 / i);
+        float f2 = (float) i;
+        if (f2 > 2048.0f || ((float) i2) > 1440.0f) {
+            if (f < 0.703125f) {
+                i2 = (int) (((float) i2) * (2048.0f / f2));
+                i = 2048;
+            } else {
+                i = f > 0.703125f ? (int) (f2 * (1440.0f / ((float) i2))) : 2048;
+                i2 = 1440;
+            }
         }
-        BitmapFactory.Options outOptions = new BitmapFactory.Options();
-        outOptions.inSampleSize = scale;
-        return BitmapFactory.decodeFile(path, outOptions);
+        options.inSampleSize = ImageLoadingUtils.calculateInSampleSize(options, i2, i);
+        options.inJustDecodeBounds = false;
+        options.inDither = false;
+        options.inPurgeable = true;
+        options.inInputShareable = true;
+        options.inTempStorage = new byte[16384];
+        try {
+            decodeFile = BitmapFactory.decodeFile(realPathFromURI, options);
+        } catch (OutOfMemoryError e) {
+            e.printStackTrace();
+        }
+        try {
+            bitmap = Bitmap.createBitmap(i2, i, Bitmap.Config.ARGB_8888);
+        } catch (OutOfMemoryError e2) {
+            e2.printStackTrace();
+            bitmap = null;
+        }
+        Bitmap bitmap3 = bitmap;
+        float f3 = (float) i2;
+        float f4 = f3 / ((float) options.outWidth);
+        float f5 = (float) i;
+        float f6 = f5 / ((float) options.outHeight);
+        float f7 = f3 / 2.0f;
+        float f8 = f5 / 2.0f;
+        Matrix matrix = new Matrix();
+        matrix.setScale(f4, f6, f7, f8);
+        Canvas canvas = new Canvas(bitmap3);
+        canvas.setMatrix(matrix);
+        canvas.drawBitmap(decodeFile, f7 - ((float) (decodeFile.getWidth() / 2)), f8 - ((float) (decodeFile.getHeight() / 2)), new Paint(2));
+        try {
+            int attributeInt = new ExifInterface(realPathFromURI).getAttributeInt(TAG_ORIENTATION, 0);
+            Log.d("EXIF", "Exif: " + attributeInt);
+            Matrix matrix2 = new Matrix();
+            if (attributeInt == 6) {
+                matrix2.postRotate(90.0f);
+                Log.d("EXIF", "Exif: " + attributeInt);
+            } else if (attributeInt == 3) {
+                matrix2.postRotate(180.0f);
+                Log.d("EXIF", "Exif: " + attributeInt);
+            } else if (attributeInt == 8) {
+                matrix2.postRotate(270.0f);
+                Log.d("EXIF", "Exif: " + attributeInt);
+            }
+            bitmap2 = bitmap3;
+            return Bitmap.createBitmap(bitmap3, 0, 0, bitmap3.getWidth(), bitmap3.getHeight(), matrix2, true);
+        } catch (IOException e4) {
+            bitmap2 = bitmap3;
+            e4.printStackTrace();
+            return bitmap2;
+        }
+    }
+    private static Bitmap createSquaredBitmap(Bitmap srcBmp) {
+        int dim = Math.max(srcBmp.getWidth(), srcBmp.getHeight());
+        Bitmap dstBmp = Bitmap.createBitmap(dim, dim, Bitmap.Config.ARGB_8888);
+
+        Canvas canvas = new Canvas(dstBmp);
+        canvas.drawColor(Color.WHITE);
+        canvas.drawBitmap(srcBmp, (dim - srcBmp.getWidth()) / 2, (dim - srcBmp.getHeight()) / 2, null);
+
+        return dstBmp;
     }
 }
