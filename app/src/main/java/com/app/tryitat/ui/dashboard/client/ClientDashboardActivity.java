@@ -98,23 +98,24 @@ public class ClientDashboardActivity extends AppCompatActivity {
         });
 
         binding.menuDashboard.setOnClickListener(v->{
-            fragment = new ClientDashboardFragment();
-            loadFragment(fragment);
-            binding.menuHome.setBackgroundColor(getResources().getColor(R.color.tab_not_select));
-            binding.menuCategories.setBackgroundColor(getResources().getColor(R.color.tab_not_select));
-            binding.menuDashboard.setBackgroundColor(getResources().getColor(R.color.tab_select));
-            binding.menuProfile.setBackgroundColor(getResources().getColor(R.color.tab_not_select));
-            binding.menuNotification.setBackgroundColor(getResources().getColor(R.color.tab_not_select));
-            binding.imageM1.setColorFilter(ContextCompat.getColor(this, R.color.ash_500), android.graphics.PorterDuff.Mode.SRC_IN);
-            binding.imageM2.setColorFilter(ContextCompat.getColor(this, R.color.ash_500), android.graphics.PorterDuff.Mode.SRC_IN);
-            binding.imageM3.setColorFilter(ContextCompat.getColor(this, R.color.white), android.graphics.PorterDuff.Mode.SRC_IN);
-            binding.imageM4.setColorFilter(ContextCompat.getColor(this, R.color.ash_500), android.graphics.PorterDuff.Mode.SRC_IN);
-            binding.imageM5.setColorFilter(ContextCompat.getColor(this, R.color.ash_500), android.graphics.PorterDuff.Mode.SRC_IN);
-            binding.menuM1Txt.setTextColor(getResources().getColor(R.color.ash_500));
-            binding.menuM2Txt.setTextColor(getResources().getColor(R.color.ash_500));
-            binding.menuM3Txt.setTextColor(getResources().getColor(R.color.white));
-            binding.menuM4Txt.setTextColor(getResources().getColor(R.color.ash_500));
-            binding.menuM5Txt.setTextColor(getResources().getColor(R.color.ash_500));
+            startActivity(new Intent(this, ClientCategoryActivity.class));
+//            fragment = new ClientDashboardFragment();
+//            loadFragment(fragment);
+//            binding.menuHome.setBackgroundColor(getResources().getColor(R.color.tab_not_select));
+//            binding.menuCategories.setBackgroundColor(getResources().getColor(R.color.tab_not_select));
+//            binding.menuDashboard.setBackgroundColor(getResources().getColor(R.color.tab_select));
+//            binding.menuProfile.setBackgroundColor(getResources().getColor(R.color.tab_not_select));
+//            binding.menuNotification.setBackgroundColor(getResources().getColor(R.color.tab_not_select));
+//            binding.imageM1.setColorFilter(ContextCompat.getColor(this, R.color.ash_500), android.graphics.PorterDuff.Mode.SRC_IN);
+//            binding.imageM2.setColorFilter(ContextCompat.getColor(this, R.color.ash_500), android.graphics.PorterDuff.Mode.SRC_IN);
+//            binding.imageM3.setColorFilter(ContextCompat.getColor(this, R.color.white), android.graphics.PorterDuff.Mode.SRC_IN);
+//            binding.imageM4.setColorFilter(ContextCompat.getColor(this, R.color.ash_500), android.graphics.PorterDuff.Mode.SRC_IN);
+//            binding.imageM5.setColorFilter(ContextCompat.getColor(this, R.color.ash_500), android.graphics.PorterDuff.Mode.SRC_IN);
+//            binding.menuM1Txt.setTextColor(getResources().getColor(R.color.ash_500));
+//            binding.menuM2Txt.setTextColor(getResources().getColor(R.color.ash_500));
+//            binding.menuM3Txt.setTextColor(getResources().getColor(R.color.white));
+//            binding.menuM4Txt.setTextColor(getResources().getColor(R.color.ash_500));
+//            binding.menuM5Txt.setTextColor(getResources().getColor(R.color.ash_500));
         });
 
         binding.menuProfile.setOnClickListener(v->{

@@ -15,6 +15,7 @@ import com.app.tryitat.databinding.ItemUserListBinding;
 import com.app.tryitat.ui.notification.adapter.NotificationAdapter;
 import com.app.tryitat.ui.notification.model.NotificationResponse;
 import com.app.tryitat.ui.profile.model.UserDataModel;
+import com.app.tryitat.utils.Common;
 import com.bumptech.glide.Glide;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -46,10 +47,17 @@ public class RvCustomerListAdapter extends RecyclerView.Adapter<RvCustomerListAd
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        UserDataModel userDataModel=snapshot.getValue(UserDataModel.class);
-                        holder.binding.txtName.setText(com.app.tryitat.utils.Common.isStrempty(userDataModel.getName()));
-                        holder.binding.txtPoints.setText(com.app.tryitat.utils.Common.isStrempty(String.valueOf(userDataModel.getPoints())) + " Points");
-                        Glide.with(mcontext).load(com.app.tryitat.utils.Common.isStrempty(userDataModel.getPicture())).placeholder(mcontext.getResources().getDrawable(R.drawable.ic_profile)).into(holder.binding.ivImg);
+                        try {
+                            UserDataModel userDataModel=snapshot.getValue(UserDataModel.class);
+                            holder.binding.txtName.setText(Common.isStrempty(userDataModel.getName().toString()));
+                            holder.binding.txtPoints.setText(Common.isStrempty(String.valueOf(userDataModel.getPoints()).toString()) + " Points");
+                            Glide.with(mcontext).load(Common.isStrempty(userDataModel.getPicture().toString())).placeholder(mcontext.getResources().getDrawable(R.drawable.ic_profile)).into(holder.binding.ivImg);
+                        }catch (Exception e){
+                            holder.binding.txtName.setText("-");
+                            holder.binding.txtPoints.setText("-");
+                            Glide.with(mcontext).load("-").placeholder(mcontext.getResources().getDrawable(R.drawable.ic_profile)).into(holder.binding.ivImg);
+                        }
+
                     }
 
                     @Override

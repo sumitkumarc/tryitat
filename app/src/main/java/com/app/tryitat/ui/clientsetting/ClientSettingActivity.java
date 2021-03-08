@@ -55,6 +55,7 @@ public class ClientSettingActivity extends AppCompatActivity {
     private void initClickListener() {
         binding.backBtn.setOnClickListener(v -> {
             onBackPressed();
+            finish();
         });
 
         binding.btnSwitchOff.setOnClickListener(v -> {
@@ -62,9 +63,11 @@ public class ClientSettingActivity extends AppCompatActivity {
             sharedPref.setUserType("");
             sharedPref.setUserEmail("");
             sharedPref.setUserPassword("");
+            sharedPref.setUserType("");
             Intent intent = new Intent(this, LocalBusinessLoginActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
+            finish();
         });
     }
 

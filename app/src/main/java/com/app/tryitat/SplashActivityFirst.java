@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Base64;
 import android.util.Log;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.app.tryitat.helper.Constant;
@@ -28,6 +29,8 @@ public class SplashActivityFirst extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splash_first);
         sharedPref = new SharedPref(this);
         new Handler().postDelayed(new Runnable() {
@@ -47,21 +50,4 @@ public class SplashActivityFirst extends AppCompatActivity {
         }, 2000);
     }
 
-//    private void hashKeyGeneration(){
-//        try {
-//            PackageInfo info = getPackageManager().getPackageInfo(
-//                    getPackageName(),
-//                    PackageManager.GET_SIGNATURES);
-//            for (Signature signature : info.signatures) {
-//                MessageDigest md = MessageDigest.getInstance("SHA");
-//                md.update(signature.toByteArray());
-//                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
-//                Toast.makeText(this, ""+Base64.encodeToString(md.digest(), Base64.DEFAULT), Toast.LENGTH_SHORT).show();
-//            }
-//        } catch (PackageManager.NameNotFoundException e) {
-//
-//        } catch (NoSuchAlgorithmException e) {
-//
-//        }
-//    }
 }

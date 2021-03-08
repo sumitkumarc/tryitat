@@ -48,24 +48,31 @@ public class RvNotCustomerListAdapter extends RecyclerView.Adapter<RvNotCustomer
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        UserDataModel userDataModel=snapshot.getValue(UserDataModel.class);
-                        holder.binding.txtName.setText(Common.isStrempty(userDataModel.getName()));
-                        holder.binding.txtPoints.setText(Common.isStrempty(String.valueOf(userDataModel.getPoints())) + "Points");
-                        Glide.with(mcontext).load(Common.isStrempty(userDataModel.getPicture())).placeholder(mcontext.getResources().getDrawable(R.drawable.ic_profile)).into(holder.binding.ivImg);
-                        holder.binding.updateBtn.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                if(!String.valueOf(userDataModel.getFcmToken()).equals("")){
-                                    Intent intent= new Intent(mcontext,NotificationSendActivity.class);
-                                    intent.putExtra("FCM_TOKEN" ,Common.isStrempty(String.valueOf(userDataModel.getFcmToken())));
-                                    intent.putExtra("USER_NAME" ,Common.isStrempty(String.valueOf(userDataModel.getName())));
-                                    mcontext.startActivity(intent);
-                                }else {
-                                    Toast.makeText(mcontext, "Token not store...", Toast.LENGTH_SHORT).show();
-                                }
+                        try {
+                            UserDataModel userDataModel = snapshot.getValue(UserDataModel.class);
+                            holder.binding.txtName.setText(Common.isStrempty(userDataModel.getName()));
+                            holder.binding.txtPoints.setText(Common.isStrempty(String.valueOf(userDataModel.getPoints())) + "Points");
+                            Glide.with(mcontext).load(Common.isStrempty(userDataModel.getPicture())).placeholder(mcontext.getResources().getDrawable(R.drawable.ic_profile)).into(holder.binding.ivImg);
+                            holder.binding.updateBtn.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    if (!String.valueOf(userDataModel.getFcmToken()).equals("")) {
+                                        Intent intent = new Intent(mcontext, NotificationSendActivity.class);
+                                        intent.putExtra("FCM_TOKEN", Common.isStrempty(String.valueOf(userDataModel.getFcmToken())));
+                                        intent.putExtra("USER_NAME", Common.isStrempty(String.valueOf(userDataModel.getName())));
+                                        mcontext.startActivity(intent);
+                                    } else {
+                                        Toast.makeText(mcontext, "Token not store...", Toast.LENGTH_SHORT).show();
+                                    }
 
-                            }
-                        });
+                                }
+                            });
+                        } catch (Exception e) {
+                            holder.binding.txtName.setText("-");
+                            holder.binding.txtPoints.setText("-");
+                            Glide.with(mcontext).load("-").placeholder(mcontext.getResources().getDrawable(R.drawable.ic_profile)).into(holder.binding.ivImg);
+                        }
+
                     }
 
                     @Override
@@ -73,7 +80,6 @@ public class RvNotCustomerListAdapter extends RecyclerView.Adapter<RvNotCustomer
 
                     }
                 });
-
 
 
     }

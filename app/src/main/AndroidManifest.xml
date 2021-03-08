@@ -20,9 +20,10 @@
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Tryitat"
+        android:theme="@style/AppTheme1"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.UserCropActivity"></activity>
+        <activity android:name=".ui.UserCropActivity" />
+        <activity android:name=".ui.pointlist.PointListActivity" />
         <activity android:name=".ui.clientnotificationsend.NotificationSendActivity" />
         <activity android:name=".ui.addpost.AddNewPostActivity" />
         <activity android:name=".ui.clientdashboardfragment.RewaordsPointListActivity" />

@@ -21,6 +21,7 @@ import com.app.tryitat.ui.comment.CommentActivity;
 import com.app.tryitat.ui.home.adapter.DashboardPostAdapter;
 import com.app.tryitat.ui.home.interfaces.HomeAdapterListener;
 import com.app.tryitat.ui.home.model.PostResponse;
+import com.app.tryitat.ui.pointlist.PointListActivity;
 import com.app.tryitat.ui.profile.model.UserDataModel;
 import com.app.tryitat.ui.setting.SettingActivity;
 import com.app.tryitat.ui.userqrcode.QrCodeActivity;
@@ -70,6 +71,12 @@ public class ProfileFragment extends Fragment implements HomeAdapterListener {
     private void initClickListener(){
         binding.settingBtn.setOnClickListener(v->{
             startActivity(new Intent(getActivity(), SettingActivity.class));
+        });
+        binding.pointView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), PointListActivity.class));
+            }
         });
 
         binding.qrBtn.setOnClickListener(v->{

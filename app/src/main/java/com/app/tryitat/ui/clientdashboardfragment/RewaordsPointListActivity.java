@@ -316,12 +316,12 @@ public class RewaordsPointListActivity extends AppCompatActivity implements Pick
         switch (requestCode) {
             case REQUEST_IMAGE_CAPTURE:
                 if (resultCode == RESULT_OK) {
-                    Log.e("SMD", "onActivityResult: " + getCacheImagePath(fileName));
-                    String u_profile = getPath(Uri.parse(imageFilePath));
+//                    Log.e("SMD", "onActivityResult: " + getCacheImagePath(fileName));
+                    String u_profile = null;
                     Log.d(">>>>>", "EROOR" + u_profile.toString());
                     File N_file = null;
                     try {
-                        N_file = getCompressed(this, u_profile);
+                        N_file = getCompressed(this, imageFilePath);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }

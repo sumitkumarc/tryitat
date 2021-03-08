@@ -364,12 +364,11 @@ public class UserDashboardActivity extends AppCompatActivity implements PickerOp
         switch (requestCode) {
             case REQUEST_IMAGE_CAPTURE:
                 if (resultCode == RESULT_OK) {
-                    Log.e("SMD", "onActivityResult: " + getCacheImagePath(fileName) );
-                    String u_profile = getPath(Uri.parse(imageFilePath));
-                    Log.d(">>>>>", "EROOR" + u_profile.toString());
+                    String u_profile =null;
+//                    Log.d(">>>>>", "EROOR" + u_profile.toString());
                     File N_file = null;
                     try {
-                        N_file = getCompressed(this, u_profile);
+                        N_file = getCompressed(this, imageFilePath);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -410,6 +409,7 @@ public class UserDashboardActivity extends AppCompatActivity implements PickerOp
         }
     }
     String res;
+
     public String getPath(Uri uri) {
         String[] projection = {MediaStore.Images.Media.DATA};
         Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
