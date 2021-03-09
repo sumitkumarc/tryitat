@@ -51,11 +51,11 @@ public class RvCustomerListAdapter extends RecyclerView.Adapter<RvCustomerListAd
                             UserDataModel userDataModel=snapshot.getValue(UserDataModel.class);
                             holder.binding.txtName.setText(Common.isStrempty(userDataModel.getName().toString()));
                             holder.binding.txtPoints.setText(Common.isStrempty(String.valueOf(userDataModel.getPoints()).toString()) + " Points");
-                            Glide.with(mcontext).load(Common.isStrempty(userDataModel.getPicture().toString())).placeholder(mcontext.getResources().getDrawable(R.drawable.ic_profile)).into(holder.binding.ivImg);
+                            Glide.with(mcontext).load(Common.isStrempty(userDataModel.getPicture())).placeholder(mcontext.getResources().getDrawable(R.drawable.default_image_100)).error(mcontext.getResources().getDrawable(R.drawable.default_image_100)).into(holder.binding.ivImg);
                         }catch (Exception e){
-                            holder.binding.txtName.setText("-");
-                            holder.binding.txtPoints.setText("-");
-                            Glide.with(mcontext).load("-").placeholder(mcontext.getResources().getDrawable(R.drawable.ic_profile)).into(holder.binding.ivImg);
+//                            holder.binding.txtName.setText("-");
+//                            holder.binding.txtPoints.setText("-");
+//                            Glide.with(mcontext).load("-").placeholder(mcontext.getResources().getDrawable(R.drawable.ic_profile)).into(holder.binding.ivImg);
                         }
 
                     }

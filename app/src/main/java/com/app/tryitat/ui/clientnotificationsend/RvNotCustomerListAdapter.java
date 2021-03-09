@@ -51,8 +51,8 @@ public class RvNotCustomerListAdapter extends RecyclerView.Adapter<RvNotCustomer
                         try {
                             UserDataModel userDataModel = snapshot.getValue(UserDataModel.class);
                             holder.binding.txtName.setText(Common.isStrempty(userDataModel.getName()));
-                            holder.binding.txtPoints.setText(Common.isStrempty(String.valueOf(userDataModel.getPoints())) + "Points");
-                            Glide.with(mcontext).load(Common.isStrempty(userDataModel.getPicture())).placeholder(mcontext.getResources().getDrawable(R.drawable.ic_profile)).into(holder.binding.ivImg);
+                            holder.binding.txtPoints.setText(Common.isStrempty(String.valueOf(userDataModel.getPoints())) + " Points");
+                            Glide.with(mcontext).load(Common.isStrempty(userDataModel.getPicture())).placeholder(mcontext.getResources().getDrawable(R.drawable.default_image_100)).error(mcontext.getResources().getDrawable(R.drawable.default_image_100)).into(holder.binding.ivImg);
                             holder.binding.updateBtn.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
