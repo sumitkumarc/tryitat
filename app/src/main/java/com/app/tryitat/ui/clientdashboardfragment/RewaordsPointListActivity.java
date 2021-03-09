@@ -114,6 +114,7 @@ public class RewaordsPointListActivity extends AppCompatActivity implements Pick
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
         binding.title.setText("Edit Reward");
+        Log.d(">>>>>>>>>",">>>" + FirebaseAuth.getInstance().getUid());
         initClickListener();
         getUserInfoData();
 
@@ -318,7 +319,7 @@ public class RewaordsPointListActivity extends AppCompatActivity implements Pick
                 if (resultCode == RESULT_OK) {
 //                    Log.e("SMD", "onActivityResult: " + getCacheImagePath(fileName));
                     String u_profile = null;
-                    Log.d(">>>>>", "EROOR" + u_profile.toString());
+//                    Log.d(">>>>>", "EROOR" + u_profile.toString());
                     File N_file = null;
                     try {
                         N_file = getCompressed(this, imageFilePath);
@@ -329,6 +330,7 @@ public class RewaordsPointListActivity extends AppCompatActivity implements Pick
 
                     u_profile = N_file.getPath();
                     Glide.with(this).load(u_profile).placeholder(getResources().getDrawable(R.drawable.ic_profile)).into(iv_img);
+                    sendPhotoToTheServer();
                 } else {
                     setResultCancelled();
                 }
@@ -350,6 +352,7 @@ public class RewaordsPointListActivity extends AppCompatActivity implements Pick
                      photoURI = FileProvider.getUriForFile(this, getPackageName() + ".provider", f);
                     Glide.with(this).load(u_profile).placeholder(getResources().getDrawable(R.drawable.ic_profile)).into(iv_img);
                     Log.e("SMD", "onActivityResult: " + imageUri);
+                    sendPhotoToTheServer();
                 } else {
                     setResultCancelled();
                 }
@@ -429,12 +432,12 @@ public class RewaordsPointListActivity extends AppCompatActivity implements Pick
                 if (!Common.edvalidateName(ed_title.getText().toString(), ed_title, "Enter Reward name")) {
                     return;
                 }
-                customerList.put("price"+ (i +1),(ed_title.getText().toString()));
+                customerList.put("price"+ (i + 1),(ed_title.getText().toString()));
                 if (photoURI != null) {
-                    customerList.put("image"+(i +1), String.valueOf(photoURI));
-                    sendPhotoToTheServer();
+//                    sendPhotoToTheServer();
+                    customerList.put("image"+(i + 1), String.valueOf(photoURI));
                 }else {
-                    customerList.put("image"+(i +1), String.valueOf(s1));
+                    customerList.put("image"+(i + 1), String.valueOf(s1));
                 }
                 new AsyncCaller().execute();
                 dialogm.dismiss();
@@ -462,7 +465,7 @@ public class RewaordsPointListActivity extends AppCompatActivity implements Pick
 
 
             // Defining the child of storageReference
-            StorageReference ref = storageReference.child(Constant.userData.getUserId() + "/post/");
+            StorageReference ref = storageReference.child(FirebaseAuth.getInstance().getUid() + "/post/");
 
             // adding listeners on upload
             // or failure of image

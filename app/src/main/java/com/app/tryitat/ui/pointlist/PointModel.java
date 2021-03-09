@@ -6,20 +6,20 @@ public class PointModel {
     String clientPic;
     String objectId;
     String showCamera;
-    String totalPoints;
+    int totalPoints =0;
     String userID;
-    String visits;
-
-    public PointModel(String MclientID, String MclientName, String MclientPic, String MobjectId, String MshowCamera, String MtotalPoints, String MuserID, String Mvisits) {
-        this.clientID = MclientID;
-        this.clientName = MclientName;
-        this.clientPic = MclientPic;
-        this.objectId = MobjectId;
-        this.showCamera = MshowCamera;
-        this.totalPoints = MtotalPoints;
-        this.userID = MuserID;
-        this.visits = Mvisits;
-    }
+    int visits= 0;
+//
+//    public PointModel(String MclientID, String MclientName, String MclientPic, String MobjectId, String MshowCamera, String MtotalPoints, String MuserID, String Mvisits) {
+//        this.clientID = MclientID;
+//        this.clientName = MclientName;
+//        this.clientPic = MclientPic;
+//        this.objectId = MobjectId;
+//        this.showCamera = MshowCamera;
+//        this.totalPoints = MtotalPoints;
+//        this.userID = MuserID;
+//        this.visits = Mvisits;
+//    }
     public String getClientID() {
         return clientID;
     }
@@ -60,11 +60,11 @@ public class PointModel {
         this.showCamera = showCamera;
     }
 
-    public String getTotalPoints() {
+    public int getTotalPoints() {
         return totalPoints;
     }
 
-    public void setTotalPoints(String totalPoints) {
+    public void setTotalPoints(int totalPoints) {
         this.totalPoints = totalPoints;
     }
 
@@ -76,11 +76,11 @@ public class PointModel {
         this.userID = userID;
     }
 
-    public String getVisits() {
+    public int getVisits() {
         return visits;
     }
 
-    public void setVisits(String visits) {
+    public void setVisits(int visits) {
         this.visits = visits;
     }
 }
