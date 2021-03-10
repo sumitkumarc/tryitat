@@ -74,6 +74,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Scanner;
+import java.util.HashMap;
+import java.util.Map.Entry;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -88,7 +90,7 @@ public class RewaordsPointListActivity extends AppCompatActivity implements Pick
 
     private List<String> rewardsImageList = new ArrayList<>();
     private List<String> rewardsPriceList = new ArrayList<>();
-    HashMap<String, String> mStrings = new HashMap<String, String>();
+    //    HashMap<String, String> mStrings = new HashMap<String, String>();
     private String[] mKeys;
     rv_interface anInterface;
     String oldstr = "";
@@ -97,6 +99,7 @@ public class RewaordsPointListActivity extends AppCompatActivity implements Pick
     private FirebaseDatabase databaseReference;
     StorageReference storageReference;
     FirebaseStorage storage;
+    RvReWordsCustomerListAdapter madapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,7 +117,7 @@ public class RewaordsPointListActivity extends AppCompatActivity implements Pick
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
         binding.title.setText("Edit Reward");
-        Log.d(">>>>>>>>>",">>>" + FirebaseAuth.getInstance().getUid());
+        Log.d(">>>>>>>>>", ">>>" + FirebaseAuth.getInstance().getUid());
         initClickListener();
         getUserInfoData();
 
@@ -138,7 +141,7 @@ public class RewaordsPointListActivity extends AppCompatActivity implements Pick
     }
 
     public Object getItem(int position) {
-        return mStrings.get(mKeys[position]);
+        return customerList.get(mKeys[position]);
     }
 
     private void dismissProgress() {
@@ -182,16 +185,16 @@ public class RewaordsPointListActivity extends AppCompatActivity implements Pick
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     ClientDataModel clientDataModel = snapshot.getValue(ClientDataModel.class);
-                    customerList= new HashMap<>();
+                    customerList = new HashMap<>();
                     customerList = clientDataModel.getRewards();
 
                     if (clientDataModel.getRewards() != null) {
 
-                        mStrings = clientDataModel.getRewards();
-                        mKeys = mStrings.keySet().toArray(new String[mStrings.size()]);
-                        rewardsImageList= new ArrayList<>();
-                        rewardsPriceList= new ArrayList<>();
-                        for (int i = 0; i < mStrings.size(); i++) {
+//                        mStrings = clientDataModel.getRewards();
+                        mKeys = customerList.keySet().toArray(new String[customerList.size()]);
+                        rewardsImageList = new ArrayList<>();
+                        rewardsPriceList = new ArrayList<>();
+                        for (int i = 0; i < customerList.size(); i++) {
                             if (mKeys[i].toString().contains("image")) {
 
                                 rewardsImageList.add(Common.isStrempty(getItem(i).toString()));
@@ -208,14 +211,14 @@ public class RewaordsPointListActivity extends AppCompatActivity implements Pick
                         if (customerList.size() != 0) {
                             binding.txtNoData.setVisibility(View.GONE);
                             binding.recyclerView.setVisibility(View.VISIBLE);
-                            RvReWordsCustomerListAdapter adapter = new RvReWordsCustomerListAdapter(RewaordsPointListActivity.this, rewardsImageList, rewardsPriceList, true);
-                            binding.recyclerView.setAdapter(adapter);
-                            adapter.setOnItemClickListener(RewaordsPointListActivity.this::OnItemClick);
+                            madapter = new RvReWordsCustomerListAdapter(RewaordsPointListActivity.this, rewardsImageList, rewardsPriceList, true);
+                            binding.recyclerView.setAdapter(madapter);
+                            madapter.setOnItemClickListener(RewaordsPointListActivity.this::OnItemClick);
                         } else {
                             binding.recyclerView.setVisibility(View.GONE);
                             binding.txtNoData.setVisibility(View.VISIBLE);
                         }
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         binding.recyclerView.setVisibility(View.GONE);
                         binding.txtNoData.setVisibility(View.VISIBLE);
                     }
@@ -245,7 +248,7 @@ public class RewaordsPointListActivity extends AppCompatActivity implements Pick
                         if (report.areAllPermissionsGranted()) {
                             Intent pictureIntent = new Intent(
                                     MediaStore.ACTION_IMAGE_CAPTURE);
-                            if(pictureIntent.resolveActivity(getPackageManager()) != null){
+                            if (pictureIntent.resolveActivity(getPackageManager()) != null) {
                                 //Create a file to store the image
                                 File photoFile = null;
                                 try {
@@ -253,7 +256,7 @@ public class RewaordsPointListActivity extends AppCompatActivity implements Pick
                                 } catch (IOException ex) {
                                 }
                                 if (photoFile != null) {
-                                    Uri fileUri = FileProvider.getUriForFile(RewaordsPointListActivity.this, getPackageName()+".provider", photoFile);
+                                    Uri fileUri = FileProvider.getUriForFile(RewaordsPointListActivity.this, getPackageName() + ".provider", photoFile);
                                     pictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
                                             fileUri);
                                     startActivityForResult(pictureIntent,
@@ -290,7 +293,9 @@ public class RewaordsPointListActivity extends AppCompatActivity implements Pick
                 }).check();
 
     }
+
     String imageFilePath;
+
     private File createImageFile() throws IOException {
         String timeStamp =
                 new SimpleDateFormat("yyyyMMdd_HHmmss",
@@ -312,6 +317,7 @@ public class RewaordsPointListActivity extends AppCompatActivity implements Pick
         imageFilePath = image.getAbsolutePath();
         return image;
     }
+
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
@@ -326,7 +332,7 @@ public class RewaordsPointListActivity extends AppCompatActivity implements Pick
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                     photoURI = FileProvider.getUriForFile(this, getPackageName()+".provider", N_file);
+                    photoURI = FileProvider.getUriForFile(this, getPackageName() + ".provider", N_file);
 
                     u_profile = N_file.getPath();
                     Glide.with(this).load(u_profile).placeholder(getResources().getDrawable(R.drawable.ic_profile)).into(iv_img);
@@ -349,7 +355,7 @@ public class RewaordsPointListActivity extends AppCompatActivity implements Pick
                     }
                     u_profile = N_file.getPath();
                     File f = new File(u_profile);
-                     photoURI = FileProvider.getUriForFile(this, getPackageName() + ".provider", f);
+                    photoURI = FileProvider.getUriForFile(this, getPackageName() + ".provider", f);
                     Glide.with(this).load(u_profile).placeholder(getResources().getDrawable(R.drawable.ic_profile)).into(iv_img);
                     Log.e("SMD", "onActivityResult: " + imageUri);
                     sendPhotoToTheServer();
@@ -399,12 +405,12 @@ public class RewaordsPointListActivity extends AppCompatActivity implements Pick
     }
 
     @Override
-    public void OnItemClick(String id, String item_id,int i) {
+    public void OnItemClick(String id, String item_id, int i) {
         oldstr = id;
-        SowDialogBox(id, item_id,i);
+        SowDialogBox(id, item_id, i);
     }
 
-    private void SowDialogBox(String s, String s1,int i) {
+    private void SowDialogBox(String s, String s1, int i) {
         final Dialog dialogm = new Dialog(this);
         dialogm.setCancelable(true);
         dialogm.setContentView(R.layout.pop_add_amount);
@@ -419,7 +425,7 @@ public class RewaordsPointListActivity extends AppCompatActivity implements Pick
         CardView cv_img = dialogm.findViewById(R.id.cv_img);
         ed_title.setText(s);
         iv_img = dialogm.findViewById(R.id.iv_img);
-        Glide.with(this).load(Common.isStrempty(s1)).placeholder(getResources().getDrawable(R.drawable.ic_profile)).into(iv_img);
+        Glide.with(this).load(Common.isStrempty(s1)).placeholder(getResources().getDrawable(R.drawable.default_image_100)).into(iv_img);
         cv_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -432,12 +438,26 @@ public class RewaordsPointListActivity extends AppCompatActivity implements Pick
                 if (!Common.edvalidateName(ed_title.getText().toString(), ed_title, "Enter Reward name")) {
                     return;
                 }
-                customerList.put("price"+ (i + 1),(ed_title.getText().toString()));
+                for (Entry<String, String> entry : customerList.entrySet()) {
+                    if (entry.getValue().equals(s)) {
+                        customerList.put(entry.getKey(), (ed_title.getText().toString()));
+                        break;
+                    }
+                }
                 if (photoURI != null) {
-//                    sendPhotoToTheServer();
-                    customerList.put("image"+(i + 1), String.valueOf(photoURI));
-                }else {
-                    customerList.put("image"+(i + 1), String.valueOf(s1));
+                    for (Entry<String, String> entry : customerList.entrySet()) {
+                        if (entry.getValue().equals(s1)) {
+                            customerList.put(entry.getKey(), String.valueOf(photoURI));
+                            break;
+                        }
+                    }
+                } else {
+                    for (Entry<String, String> entry : customerList.entrySet()) {
+                        if (entry.getValue().equals(s1)) {
+                            customerList.put(entry.getKey(), String.valueOf(s1));
+                            break;
+                        }
+                    }
                 }
                 new AsyncCaller().execute();
                 dialogm.dismiss();
@@ -452,6 +472,7 @@ public class RewaordsPointListActivity extends AppCompatActivity implements Pick
         });
         dialogm.show();
     }
+
     private void sendPhotoToTheServer() {
 
 
@@ -508,6 +529,7 @@ public class RewaordsPointListActivity extends AppCompatActivity implements Pick
                     });
         }
     }
+
     private class AsyncCaller extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void... params) {
@@ -515,6 +537,7 @@ public class RewaordsPointListActivity extends AppCompatActivity implements Pick
             runOnUiThread(new Runnable() {
                 public void run() {
                     clientRef.child(FirebaseAuth.getInstance().getUid()).child("rewards").setValue(customerList);
+                    madapter.notifyDataSetChanged();
                 }
             });
             return null;

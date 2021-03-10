@@ -61,11 +61,11 @@ public class RvReWordsCustomerListAdapter extends RecyclerView.Adapter<RvReWords
     @Override
     @SuppressLint({"SetTextI18n", "UseCompatLoadingForDrawables"})
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-
+        holder.setIsRecyclable(false);
         int iii =(position + 1) * points;
         holder.binding.txtName.setText(String.valueOf(iii) + " Points");
         holder.binding.txtPoints.setText(mrewardsPriceList.get(position));
-        Glide.with(mcontext).load(Common.isStrempty(mrewardsImageList.get(position))).placeholder(mcontext.getResources().getDrawable(R.drawable.ic_profile)).into(holder.binding.ivImg);
+        Glide.with(mcontext).load(Common.isStrempty(mrewardsImageList.get(position))).placeholder(mcontext.getResources().getDrawable(R.drawable.default_image_100)).into(holder.binding.ivImg);
 
          holder.itemView.setOnClickListener(new View.OnClickListener() {
              @Override
