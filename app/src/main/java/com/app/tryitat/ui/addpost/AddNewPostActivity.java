@@ -80,6 +80,7 @@ public class AddNewPostActivity extends AppCompatActivity {
 
     private void getUserPostData() {
         title = binding.pTitle.getText().toString();
+        binding.pCompany.setText(Common.CLIENT_NAME);
         subTitle = binding.pCompany.getText().toString();
         reviewDesc = binding.pReviewDetails.getText().toString();
         location = "";

@@ -1,3 +1,4 @@
+
 package com.app.tryitat.ui.userqrcode;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -35,8 +36,16 @@ public class QrCodeActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         binding = ActivityQrCodeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        userId = getIntent().getStringExtra("uid");
-        binding.name.setText(Constant.userData.getName());
+
+        if(getIntent().getIntExtra("utype",0) ==2){
+            userId = getIntent().getStringExtra("uid");
+            binding.name.setText(getIntent().getStringExtra("uname"));
+        }else {
+            userId = getIntent().getStringExtra("uid");
+            binding.name.setText(Constant.userData.getName());
+        }
+
+
         sharedPref = new SharedPref(this);
 
         initClickListener();

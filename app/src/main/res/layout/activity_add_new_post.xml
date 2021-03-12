@@ -251,7 +251,7 @@
                 android:paddingEnd="@dimen/_10sdp"
                 android:background="?android:selectableItemBackground"
                 android:padding="@dimen/_5sdp"
-                android:text="@string/home_others"
+                android:text="Post"
                 android:textAlignment="center"
                 android:textAllCaps="false"
                 android:textColor="@color/black"

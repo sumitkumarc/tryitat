@@ -12,6 +12,7 @@ import com.app.tryitat.helper.Constant;
 import com.app.tryitat.helper.SharedPref;
 import com.app.tryitat.ui.clientcategory.ClientCategoryActivity;
 import com.app.tryitat.ui.dashboard.catchoose.ProductCatChoseActivity;
+import com.app.tryitat.ui.dashboard.client.ClientDashboardActivity;
 import com.app.tryitat.ui.dashboard.user.UserDashboardActivity;
 import com.app.tryitat.ui.login.LoginActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -143,7 +144,7 @@ public class SignupActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<Void> task) {
                 dismissProgress();
                 if (sharedPref.getUserType().equalsIgnoreCase(Constant.userTypeClient)){
-                    startActivity(new Intent(SignupActivity.this, ClientCategoryActivity.class));
+                    startActivity(new Intent(SignupActivity.this, ClientDashboardActivity.class));
                 } else {
                     startActivity(new Intent(SignupActivity.this, ProductCatChoseActivity.class));
                 }

@@ -50,7 +50,7 @@ public class Common {
     public static int MERCHANT_TYPE = 1;
     public static int MinPrice = 0;
     public static int MaxPrice = 0;
-    public static String DELIVER_TYPE = "";
+    public static String CLIENT_NAME = "";
     public static int PAYMENT_TYPE = 4;
     public static String NOTE = "type note here...";
     public static int FILTER_TYPE = 0;

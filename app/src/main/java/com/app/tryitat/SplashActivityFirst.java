@@ -17,6 +17,7 @@ import com.app.tryitat.helper.Constant;
 import com.app.tryitat.helper.SharedPref;
 import com.app.tryitat.ui.clientcategory.ClientCategoryActivity;
 import com.app.tryitat.ui.dashboard.catchoose.ProductCatChoseActivity;
+import com.app.tryitat.ui.dashboard.client.ClientDashboardActivity;
 import com.app.tryitat.ui.dashboard.user.UserDashboardActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -38,7 +39,7 @@ public class SplashActivityFirst extends AppCompatActivity {
             public void run() {
                 if (FirebaseAuth.getInstance().getCurrentUser()!=null){
                     if (sharedPref.getUserType().equalsIgnoreCase(Constant.userTypeClient)){
-                        startActivity(new Intent(SplashActivityFirst.this, ClientCategoryActivity.class));
+                        startActivity(new Intent(SplashActivityFirst.this, ClientDashboardActivity.class));
                     } else {
                         startActivity(new Intent(SplashActivityFirst.this, ProductCatChoseActivity.class));
                     }

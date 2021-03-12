@@ -12,6 +12,7 @@ import com.app.tryitat.helper.Constant;
 import com.app.tryitat.helper.SharedPref;
 import com.app.tryitat.ui.clientcategory.ClientCategoryActivity;
 import com.app.tryitat.ui.dashboard.catchoose.ProductCatChoseActivity;
+import com.app.tryitat.ui.dashboard.client.ClientDashboardActivity;
 import com.app.tryitat.ui.locolbusinesssignup.LocolBusinessSignUpActivity;
 import com.app.tryitat.ui.login.LoginActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -109,7 +110,7 @@ public class LocalBusinessLoginActivity extends AppCompatActivity {
                         sharedPref.setUserPassword(password);
                     }
                     if (sharedPref.getUserType().equalsIgnoreCase(Constant.userTypeClient)){
-                        startActivity(new Intent(LocalBusinessLoginActivity.this, ClientCategoryActivity.class));
+                        startActivity(new Intent(LocalBusinessLoginActivity.this, ClientDashboardActivity.class));
                     } else {
                         startActivity(new Intent(LocalBusinessLoginActivity.this, ProductCatChoseActivity.class));
                     }

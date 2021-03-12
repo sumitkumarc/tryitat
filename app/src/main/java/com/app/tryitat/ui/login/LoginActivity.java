@@ -13,6 +13,7 @@ import com.app.tryitat.helper.Constant;
 import com.app.tryitat.helper.SharedPref;
 import com.app.tryitat.ui.clientcategory.ClientCategoryActivity;
 import com.app.tryitat.ui.dashboard.catchoose.ProductCatChoseActivity;
+import com.app.tryitat.ui.dashboard.client.ClientDashboardActivity;
 import com.app.tryitat.ui.dashboard.user.UserDashboardActivity;
 import com.app.tryitat.ui.signup.SignupActivity;
 import com.facebook.AccessToken;
@@ -100,7 +101,7 @@ public class LoginActivity extends AppCompatActivity {
                             sharedPref.setUserType("normal");
                             dismissProgress();
                             if (sharedPref.getUserType().equalsIgnoreCase(Constant.userTypeClient)){
-                                startActivity(new Intent(LoginActivity.this, ClientCategoryActivity.class));
+                                startActivity(new Intent(LoginActivity.this, ClientDashboardActivity.class));
                             } else {
                                 startActivity(new Intent(LoginActivity.this, ProductCatChoseActivity.class));
                             }
@@ -165,7 +166,7 @@ public class LoginActivity extends AppCompatActivity {
                             dismissProgress();
 
                             if (sharedPref.getUserType().equalsIgnoreCase(Constant.userTypeClient)){
-                                startActivity(new Intent(LoginActivity.this, ClientCategoryActivity.class));
+                                startActivity(new Intent(LoginActivity.this, ClientDashboardActivity.class));
                             } else {
                                 startActivity(new Intent(LoginActivity.this, ProductCatChoseActivity.class));
                             }
