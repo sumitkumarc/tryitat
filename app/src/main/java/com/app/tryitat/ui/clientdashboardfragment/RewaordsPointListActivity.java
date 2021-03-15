@@ -69,6 +69,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -76,6 +77,7 @@ import java.util.Objects;
 import java.util.Scanner;
 import java.util.HashMap;
 import java.util.Map.Entry;
+import java.util.TreeMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -86,8 +88,8 @@ public class RewaordsPointListActivity extends AppCompatActivity implements Pick
     private ActivityNotificationListBinding binding;
     private FirebaseDatabase database;
     private DatabaseReference clientRef;
-    private HashMap<String, String> customerList = new HashMap<>();
-
+    private Map<String, String> customerList = new TreeMap<>();
+//    Map<String, String> customerList = new TreeMap<>();
     private List<String> rewardsImageList = new ArrayList<>();
     private List<String> rewardsPriceList = new ArrayList<>();
     //    HashMap<String, String> mStrings = new HashMap<String, String>();
@@ -185,7 +187,7 @@ public class RewaordsPointListActivity extends AppCompatActivity implements Pick
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     ClientDataModel clientDataModel = snapshot.getValue(ClientDataModel.class);
-                    customerList = new HashMap<>();
+                    customerList = new TreeMap<>();
                     customerList = clientDataModel.getRewards();
 
                     if (clientDataModel.getRewards() != null) {
@@ -204,8 +206,33 @@ public class RewaordsPointListActivity extends AppCompatActivity implements Pick
                                 rewardsPriceList.add(Common.isStrempty(getItem(i).toString()));
                             }
                         }
+                    } else {
+                        customerList = new TreeMap<>();
+                        customerList.put("image1", "image1");
+                        customerList.put("image2", "image2");
+                        customerList.put("image3", "image3");
+                        customerList.put("image4", "image4");
+                        customerList.put("image5", "image5");
+                        customerList.put("image6", "image6");
+                        customerList.put("price1", "5$");
+                        customerList.put("price2", "10$");
+                        customerList.put("price3", "15$");
+                        customerList.put("price4", "20$");
+                        customerList.put("price5", "25$");
+                        customerList.put("price6", "30$");
+                        mKeys = customerList.keySet().toArray(new String[customerList.size()]);
+                        rewardsImageList = new ArrayList<>();
+                        rewardsPriceList = new ArrayList<>();
+                        for (int i = 0; i < customerList.size(); i++) {
+                            if (mKeys[i].toString().contains("image")) {
 
+                                rewardsImageList.add(Common.isStrempty(getItem(i).toString()));
+                            }
+                            if (mKeys[i].toString().contains("price")) {
 
+                                rewardsPriceList.add(Common.isStrempty(getItem(i).toString()));
+                            }
+                        }
                     }
                     try {
                         if (customerList.size() != 0) {
@@ -214,9 +241,6 @@ public class RewaordsPointListActivity extends AppCompatActivity implements Pick
                             madapter = new RvReWordsCustomerListAdapter(RewaordsPointListActivity.this, rewardsImageList, rewardsPriceList, true);
                             binding.recyclerView.setAdapter(madapter);
                             madapter.setOnItemClickListener(RewaordsPointListActivity.this::OnItemClick);
-                        } else {
-                            binding.recyclerView.setVisibility(View.GONE);
-                            binding.txtNoData.setVisibility(View.VISIBLE);
                         }
                     } catch (Exception e) {
                         binding.recyclerView.setVisibility(View.GONE);

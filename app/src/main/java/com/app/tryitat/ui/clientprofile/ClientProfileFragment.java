@@ -58,6 +58,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.TreeMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -68,7 +70,7 @@ public class ClientProfileFragment extends Fragment implements PickerOptionListe
     private List<PostResponse> postResponseList;
     private List<String> rewardsImageList = new ArrayList<>();
     private List<String> rewardsPriceList = new ArrayList<>();
-    HashMap<String, String> mStrings = new HashMap<String, String>();
+    Map<String, String> mStrings = new TreeMap<>();
     private String[] mKeys;
     //    private List<String> rewardsPriceList = new ArrayList<>();
     public static final int REQUEST_IMAGE_CAPTURE = 0;
@@ -92,7 +94,13 @@ public class ClientProfileFragment extends Fragment implements PickerOptionListe
         super.onActivityCreated(savedInstanceState);
         initClickListener();
     }
-
+    @Override
+    public void setUserVisibleHint(boolean visible) {
+        super.setUserVisibleHint(visible);
+        if (visible) {
+            initClickListener();
+        }
+    }
     public Object getItem(int position) {
         return mStrings.get(mKeys[position]);
     }
@@ -127,10 +135,34 @@ public class ClientProfileFragment extends Fragment implements PickerOptionListe
                     rewardsPriceList.add(Common.isStrempty(getItem(i).toString()));
                 }
             }
+        }else {
+            mStrings = new TreeMap<>();
+            mStrings.put("image1", "image1");
+            mStrings.put("image2", "image2");
+            mStrings.put("image3", "image3");
+            mStrings.put("image4", "image4");
+            mStrings.put("image5", "image5");
+            mStrings.put("image6", "image6");
+            mStrings.put("price1", "5$");
+            mStrings.put("price2", "10$");
+            mStrings.put("price3", "15$");
+            mStrings.put("price4", "20$");
+            mStrings.put("price5", "25$");
+            mStrings.put("price6", "30$");
+            mKeys = mStrings.keySet().toArray(new String[mStrings.size()]);
+            rewardsImageList = new ArrayList<>();
+            rewardsPriceList = new ArrayList<>();
+            for (int i = 0; i < mStrings.size(); i++) {
+                if (mKeys[i].toString().contains("image")) {
+                    rewardsImageList.add(Common.isStrempty(getItem(i).toString()));
+                }
+                if (mKeys[i].toString().contains("price")) {
 
-
+                    rewardsPriceList.add(Common.isStrempty(getItem(i).toString()));
+                }
+            }
         }
-        if (Constant.clientDataModel.getRewards() != null) {
+        if (mStrings.size() != 0) {
             binding.rewardsRcv.setVisibility(View.VISIBLE);
             RvReWordsCustomerListAdapter rvReWordsCustomerListAdapter = new RvReWordsCustomerListAdapter(getContext(), rewardsImageList, rewardsPriceList, false);
             binding.rewardsRcv.setAdapter(rvReWordsCustomerListAdapter);
@@ -346,6 +378,8 @@ public class ClientProfileFragment extends Fragment implements PickerOptionListe
         cursor.close();
         return res;
     }
+
+
     private void setResultCancelled() {
         Intent intent = new Intent();
         getActivity().setResult(Activity.RESULT_CANCELED, intent);
