@@ -24,6 +24,7 @@
         android:usesCleartextTraffic="true">
         <activity android:name=".ui.UserCropActivity" />
         <activity android:name=".ui.pointlist.PointListActivity" />
+        <activity android:name=".ui.userpointbord.UserPointActivity" />
         <activity android:name=".ui.clientnotificationsend.NotificationSendActivity" />
         <activity android:name=".ui.addpost.AddNewPostActivity" />
         <activity android:name=".ui.clientdashboardfragment.RewaordsPointListActivity" />

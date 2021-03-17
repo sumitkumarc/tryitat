@@ -15,6 +15,7 @@ import com.app.tryitat.R;
 import com.app.tryitat.databinding.ActivityAddNewPostBinding;
 import com.app.tryitat.helper.Constant;
 import com.app.tryitat.ui.clientnotificationsend.NotificationSendActivity;
+import com.app.tryitat.ui.userpointbord.UserPointActivity;
 import com.bumptech.glide.Glide;
 import com.app.tryitat.utils.Common;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -29,6 +30,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.kaopiz.kprogresshud.KProgressHUD;
 
 import java.io.File;
 import java.util.HashMap;
@@ -183,7 +185,7 @@ public class AddNewPostActivity extends AppCompatActivity {
 
                                             Log.d(">>>>>>>>", ">>>URI" + uri);
                                             finalimageurl = uri.toString();
-
+                                            showProgress();
                                             new AsyncCaller().execute();
                                             // Got the download URL for 'path/to/aFile'
                                         }
@@ -220,8 +222,6 @@ public class AddNewPostActivity extends AppCompatActivity {
             total = 5;
         }
         databaseReference.getReference("User").child(Constant.userData.getUserId()).child("points").setValue(total);
-
-
         DatabaseReference postRef = databaseReference.getReference("Post").push();
         hashMap.put("objectId", postRef.getKey());
         postRef.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -233,12 +233,38 @@ public class AddNewPostActivity extends AppCompatActivity {
                 Log.d(">>>>>>>>", ">>>Done" + task.toString());
                 postRef.updateChildren(map);
 
+                if(Common.UPDATE_POINT_POST == 1){
+                    int total = 0;
+                    try {
+                        total = Common.TOTAL_POINT + 5;
+                    } catch (Exception e) {
+                        total = 5;
+                    }
+                    FirebaseDatabase.getInstance().getReference("UserPoints").child(String.valueOf(Common.POST_OBJECT_ID)).child("totalPoints").setValue(total);
+                    FirebaseDatabase.getInstance().getReference("UserPoints").child(String.valueOf(Common.POST_OBJECT_ID)).child("showCamera").setValue("No");
+                }
+                dismissProgress();
             }
         });
         onBackPressed();
 
     }
+    KProgressHUD progressHUD;
 
+    private void showProgress() {
+        progressHUD = KProgressHUD.create(AddNewPostActivity.this)
+                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+                .setCancellable(false)
+                .setAnimationSpeed(2)
+                .setDimAmount(0.3f)
+                .show();
+    }
+
+    private void dismissProgress() {
+        if (progressHUD != null) {
+            progressHUD.dismiss();
+        }
+    }
     private class AsyncCaller extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void... params) {

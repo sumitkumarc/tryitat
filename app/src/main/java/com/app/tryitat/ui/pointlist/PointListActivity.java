@@ -111,7 +111,7 @@ public class PointListActivity extends AppCompatActivity implements PickerOption
                     for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                         PointModel post = dataSnapshot.getValue(PointModel.class);
                         assert post != null;
-                        if (post.getUserID().equals("9paY3iPA7thRkvz1GUO1PVfVVN82")) {
+                        if (post.getUserID().equals(FirebaseAuth.getInstance().getUid())) {
                             UserPoints.add(post);
                         }
                     }
@@ -140,6 +140,7 @@ public class PointListActivity extends AppCompatActivity implements PickerOption
             }
         });
     }
+
     public static final int REQUEST_IMAGE_CAPTURE = 0;
     public static final int REQUEST_GALLERY_IMAGE = 1;
     public static String fileName;

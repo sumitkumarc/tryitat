@@ -51,7 +51,10 @@ public class Common {
     public static int MinPrice = 0;
     public static int MaxPrice = 0;
     public static String CLIENT_NAME = "";
-    public static int PAYMENT_TYPE = 4;
+    public static String POST_OBJECT_ID = "";
+    public static int TOTAL_POINT = 0;
+    public static String CLIENT_ID = "";
+    public static int UPDATE_POINT_POST = 0;
     public static String NOTE = "type note here...";
     public static int FILTER_TYPE = 0;
     public static int RESTAURANT_ID = 0;
